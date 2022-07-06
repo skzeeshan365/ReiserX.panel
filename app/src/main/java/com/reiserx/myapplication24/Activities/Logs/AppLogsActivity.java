@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -66,6 +67,9 @@ public class AppLogsActivity extends AppCompatActivity {
 
     SnackbarTop snackbarTop;
 
+    SharedPreferences save;
+    SharedPreferences.Editor myEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,12 @@ public class AppLogsActivity extends AppCompatActivity {
         setTitle("App logs");
 
         snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
+
+
+
+        save = getSharedPreferences("Tokens", MODE_PRIVATE);
+        myEdit = save.edit();
+        binding.textView21.setTextSize(save.getInt("size", 12));
 
         DocumentReference documents = FirebaseFirestore.getInstance().collection("Main").document(UserID).collection("Logs").document("LogId");
         documents.addSnapshotListener((snapshot, e) -> {
@@ -163,6 +173,9 @@ public class AppLogsActivity extends AppCompatActivity {
             case R.id.logfile_save:
                 saveLogFile();
                 break;
+            case R.id.logfile_fontsize:
+                fontsize();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -246,6 +259,82 @@ public class AppLogsActivity extends AppCompatActivity {
         });
 
         alert.setNegativeButton("cancel", null);
+
+        alert.show();
+    }
+
+    public void fontsize() {
+        SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
+
+        AlertDialog alert = new AlertDialog.Builder(this).create();
+
+        View mView = getLayoutInflater().inflate(R.layout.radio_dialog_2, null);
+        final RadioButton btn1 = mView.findViewById(R.id.radioButton1);
+        final RadioButton btn2 = mView.findViewById(R.id.radioBtn2);
+        final RadioButton btn3 = mView.findViewById(R.id.radioBtn3);
+        final RadioButton btn4 = mView.findViewById(R.id.radioBtn4);
+
+        alert.setTitle("Font size");
+        alert.setMessage("Please select Font size");
+        alert.setView(mView);
+
+        switch (save.getInt("size", 12)) {
+            case 10:
+                btn1.setChecked(true);
+                break;
+            case 12:
+                btn2.setChecked(true);
+                break;
+            case 14:
+                btn3.setChecked(true);
+                break;
+            case 18:
+                btn4.setChecked(true);
+                break;
+            default:
+                btn2.setChecked(true);
+                break;
+        }
+
+        btn1.setText("10dp");
+        btn1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (btn1.isChecked()) {
+                binding.textView21.setTextSize(10);
+                alert.dismiss();
+                myEdit.putInt("size", 10);
+                myEdit.apply();
+            }
+        });
+
+        btn2.setText("12dp");
+        btn2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (btn2.isChecked()) {
+                binding.textView21.setTextSize(12);
+                alert.dismiss();
+                myEdit.putInt("size", 12);
+                myEdit.apply();
+            }
+        });
+
+        btn3.setText("14dp");
+        btn3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (btn3.isChecked()) {
+                binding.textView21.setTextSize(14);
+                alert.dismiss();
+                myEdit.putInt("size", 14);
+                myEdit.apply();
+            }
+        });
+
+        btn4.setText("18dp");
+        btn4.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (btn4.isChecked()) {
+                binding.textView21.setTextSize(18);
+                alert.dismiss();
+                myEdit.putInt("size", 18);
+                myEdit.apply();
+            }
+        });
 
         alert.show();
     }

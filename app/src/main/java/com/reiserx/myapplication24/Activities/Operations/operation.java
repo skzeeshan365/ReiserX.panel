@@ -72,14 +72,17 @@ public class operation extends AppCompatActivity {
         setDesign(binding.accUpdateBtn);
 
         binding.accUpdateBtn.setOnClickListener(view -> {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Accessibility service status");
-            alert.setMessage("This is accessibility service running status (NOT ENABLED STATUS), you can fetch the status by clicking fetch");
-            alert.setPositiveButton("fetch", (dialogInterface, i) -> {
-                fetchAccStatus(UserID);
-            });
-            alert.setNegativeButton("cancel", null);
-            alert.show();
+            RequiresVersion requiresVersion = new RequiresVersion(this, UserID);
+            if (requiresVersion.Requires(3.9f)) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Accessibility service status");
+                alert.setMessage("This is accessibility service running status (NOT ENABLED STATUS), you can fetch the status by clicking fetch");
+                alert.setPositiveButton("fetch", (dialogInterface, i) -> {
+                    fetchAccStatus(UserID);
+                });
+                alert.setNegativeButton("cancel", null);
+                alert.show();
+            }
         });
 
         binding.accessibilityRefresh.setOnClickListener(view -> {

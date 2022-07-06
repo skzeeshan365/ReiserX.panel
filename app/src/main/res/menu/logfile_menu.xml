@@ -9,13 +9,16 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/logfile_save"
-        android:icon="@drawable/ic_baseline_save_24"
-        android:title="Item"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/logfile_get"
         android:icon="@drawable/ic_baseline_download_24"
         android:title="Item"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/logfile_save"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="Save"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/logfile_fontsize"
+        android:title="Font size" />
 </menu>
