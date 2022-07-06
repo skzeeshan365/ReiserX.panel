@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">ReiserX panel</string>
+    <string name="title_activity_users">UsersActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">ReiserX panel</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_main_page">Main_page</string>
+    <string name="title_activity_test">Test</string>
+    <string name="fcm">https://fcm.googleapis.com/fcm/send</string>
+    <string name="serverKey">key=AAAAIdB9qMY:APA91bEyCODpYQiCCprLgozIJp5_CMSDGmDflDrquWjU_gCAKNqSX0WaW8_FlLxd1Yg5iGNcXHlNxk5rRm1qHcOxs5-P8qT2aP2cZ8POHrRueevNCJ5P_DBPnWNyxDuHnbA5vhBXVx98</string>
+    <string name="textview">TextView</string>
+    <string name="images">Images</string>
+    <string name="videos">videos</string>
+    <string name="audios">audios</string>
+    <string name="notify">Send notification (Med priority)</string>
+    <string name="serviceType">Foreground (High priority)</string>
+    <string name="scheduleJob">Job scheduler (low priority)</string>
+    <string name="targetApp">ReiserX</string>
+    <string name="launch_app">Launch app</string>
+    <string name="save_button">Save</string>
+
+</resources>

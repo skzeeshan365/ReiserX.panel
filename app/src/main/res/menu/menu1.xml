@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/http"
+        android:title="Setup" />
+    <item
+        android:id="@+id/logout"
+        android:title="Logout"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/adminss"
+        android:title="Administration" />
+</menu>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.reiserx.myapplication24" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication24" >
+        <activity
+            android:name=".Activities.Logs.AppLogsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Camera.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FileViewers.TextViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Others.SetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FileViewers.PdfViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Operations.OperationListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Audios.GetAudiosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FileViewers.ImageViewActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyApplication24.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activities.ScreenShots.ScreenShotsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.UploadFilesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Usagestats.UsageStatsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Notifications.Recycler2"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Notifications.NotificationHistoryMain"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Notifications.RecyclerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Notifications.notification_history"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Locations.location_historys"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ParentActivities.ScanQr"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Logs.ErrorLogs"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Others.updateApp"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Calls.callogs"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.checkDownload"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Locations.location"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Administration.request"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.webActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.viewfilesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.LoginSystem.deactivated"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ParentActivities.Test"
+            android:exported="false"
+            android:label="@string/title_activity_test"
+            android:theme="@style/Theme.MyApplication24.NoActionBar" />
+        <activity
+            android:name=".Activities.LoginSystem.LoginActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.Directories.FoldersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.openFiles"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Calls.contacts"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.DirectorysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.checkDetails"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Operations.operation"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Directories.MainActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".Service.MyFirebaseMessagingService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_circle_notifications_24" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/white" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".Service.CommandService"
+            android:exported="true" />
+
+        <receiver
+            android:name=".Receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="AlarmReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="AlarmService" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
