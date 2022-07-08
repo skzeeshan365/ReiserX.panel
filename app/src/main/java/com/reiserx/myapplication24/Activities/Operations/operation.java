@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -45,8 +44,6 @@ public class operation extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseDatabase mdb = FirebaseDatabase.getInstance();
 
-    ColorDrawable colorDrawable;
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +62,7 @@ public class operation extends AppCompatActivity {
         setDesign(binding.accessibilityRefresh);
         setDesign(binding.accUpdateBtn);
 
-        colorDrawable = (ColorDrawable) binding.mainLayout.getBackground();
-        NativeAdsClass nativeAdsClass = new NativeAdsClass(this, binding.myTemplate, colorDrawable);
+        NativeAdsClass nativeAdsClass = new NativeAdsClass(this, binding.myTemplate, binding.mainLayout);
         nativeAdsClass.loadAd();
 
         userStatus(UserID);

@@ -97,7 +97,7 @@ public class screenShotImageAdapter extends RecyclerView.Adapter {
         } else if (holder.getClass() == AdsViewHolder.class) {
             AdsViewHolder viewHolder = (AdsViewHolder) holder;
             ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.dark));
-            NativeAdsClass nativeAdsClass = new NativeAdsClass(context, viewHolder.binding.myTemplate, colorDrawable);
+            NativeAdsClass nativeAdsClass = new NativeAdsClass(context, viewHolder.binding.myTemplate, viewHolder.binding.nativeAdsHolder);
             nativeAdsClass.loadAd();
         }
     }
