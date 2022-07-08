@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.Notifications.notification_history_adapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.deleteNotification;
 import com.reiserx.myapplication24.Models.NotificationModel;
@@ -58,6 +59,9 @@ public class notification_history extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNotificationHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
         AppName = getIntent().getStringExtra("AppName");

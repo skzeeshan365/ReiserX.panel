@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Others.errorLogsAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.exceptionUpload;
 import com.reiserx.myapplication24.databinding.ActivityErrorLogsBinding;
 
@@ -30,6 +31,9 @@ public class ErrorLogs extends AppCompatActivity {
 
         binding = ActivityErrorLogsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         setTitle("Error logs");
 

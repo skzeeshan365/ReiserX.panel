@@ -22,6 +22,7 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.Utilities.CONSTANTS;
 import com.reiserx.myapplication24.databinding.ActivityPdfViewerBinding;
@@ -50,6 +51,9 @@ public class PdfViewerActivity extends AppCompatActivity implements OnPageChange
         super.onCreate(savedInstanceState);
         binding = ActivityPdfViewerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         binding.pdfView.setBackgroundColor(Color.BLACK);
         String Url = getIntent().getStringExtra("url");

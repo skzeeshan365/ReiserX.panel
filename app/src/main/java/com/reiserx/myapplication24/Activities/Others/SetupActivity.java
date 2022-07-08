@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.reiserx.myapplication24.Adapters.Others.setupAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.operationsModel;
 import com.reiserx.myapplication24.databinding.ActivitySetupBinding;
 
@@ -25,6 +26,9 @@ public class SetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySetupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         i = getIntent().getIntExtra("requestCode", 0);
 

@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Audios.DeviceListAdaptet;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.Users;
 import com.reiserx.myapplication24.R;
@@ -58,6 +59,9 @@ public class FirstFragment extends Fragment {
         if (currentUser != null) {
             UserID = currentUser.getUid();
         }
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(view.getContext(), binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         data = new ArrayList<>();
         binding.rec.setLayoutManager(new LinearLayoutManager(view.getContext()));

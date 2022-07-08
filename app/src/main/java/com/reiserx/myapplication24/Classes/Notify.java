@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.R;
 
 import org.json.JSONObject;
@@ -57,6 +58,8 @@ public class Notify {
                 Log.d(TAG, e.getMessage());
             }
             handler.post(() -> {
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
+                interstitialAdsClass.loadAds();
         });
     });
 }
@@ -89,6 +92,8 @@ public class Notify {
                 Log.d(TAG, e.getMessage());
             }
             handler.post(() -> {
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
+                interstitialAdsClass.loadAds();
             });
         });
     }

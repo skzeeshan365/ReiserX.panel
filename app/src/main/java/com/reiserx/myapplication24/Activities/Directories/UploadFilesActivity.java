@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.FileUtil;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Methods.DesignLayout;
@@ -36,6 +38,9 @@ public class UploadFilesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityUploadFilesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
         path = getIntent().getStringExtra("Path");
@@ -117,6 +122,8 @@ public class UploadFilesActivity extends AppCompatActivity {
                                             prog.setMessage("Uploaded");
                                             prog.dismiss();
                                             snackbarTop.showSnackBar("File uploaded successfully", true);
+                                            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(UploadFilesActivity.this);
+                                            interstitialAdsClass.loadAds();
                                         });
                                     }
                                 });

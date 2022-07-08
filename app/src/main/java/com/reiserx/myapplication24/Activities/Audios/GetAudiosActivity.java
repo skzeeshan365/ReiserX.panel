@@ -26,6 +26,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
 import com.reiserx.myapplication24.Adapters.Audios.AudiosAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.postRequest;
 import com.reiserx.myapplication24.Models.AudiosDownloadUrl;
@@ -68,6 +70,9 @@ public class GetAudiosActivity extends AppCompatActivity {
         UserID = getIntent().getStringExtra("UserID");
 
         firestore = FirebaseFirestore.getInstance();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         binding.rec.setVisibility(View.GONE);
         binding.progHolder.setVisibility(View.VISIBLE);
@@ -287,6 +292,8 @@ public class GetAudiosActivity extends AppCompatActivity {
                     performTask performTask = new performTask(String.valueOf(duration), 15, UserID);
                     performTask.Task();
                     snackbarTop.showSnackBar("Request sent", true);
+                    InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                    interstitialAdsClass.loadAds();
                 });
                 request.setNegativeButton("command b", (dialogInterface, i) -> {
                     getToken("com.reiserx.testtrace.accessibility"+duration, "2", UserID);
@@ -302,6 +309,8 @@ public class GetAudiosActivity extends AppCompatActivity {
     }
     private void getToken(String title, String msg, String UserID) {
 
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
         prog.setMessage("Getting device id...");
         prog.show();
         FirebaseFirestore db = FirebaseFirestore.getInstance();

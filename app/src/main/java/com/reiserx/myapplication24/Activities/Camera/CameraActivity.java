@@ -28,6 +28,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.Camera.CameraAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.TaskSuccess;
 import com.reiserx.myapplication24.Models.deviceInfo;
@@ -82,6 +84,9 @@ public class CameraActivity extends AppCompatActivity {
         binding.progHolder.setVisibility(View.VISIBLE);
         binding.progressBar2.setVisibility(View.VISIBLE);
         binding.textView9.setVisibility(View.GONE);
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
 
@@ -251,6 +256,8 @@ public class CameraActivity extends AppCompatActivity {
                         snackbarTop.showSnackBar("Just wait a moment", true);
                         listeners();
                         prog.dismiss();
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                        interstitialAdsClass.loadAds();
                         Log.d(TAG, "30");
                     } else {
                         checkLock();
@@ -281,6 +288,8 @@ public class CameraActivity extends AppCompatActivity {
                         performTask performTask = new performTask(requestCode, 20, UserID);
                         performTask.Task();
                         snackbarTop.showSnackBar("Just wait a moment", true);
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(CameraActivity.this);
+                        interstitialAdsClass.loadAds();
                         listeners();
                         Log.d(TAG, "-30");
                     }

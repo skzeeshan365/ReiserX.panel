@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Utilities.CONSTANTS;
 import com.reiserx.myapplication24.databinding.ActivityWebBinding;
 
@@ -20,6 +21,9 @@ public class webActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityWebBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         String url = getIntent().getStringExtra("url");
         String name = getIntent().getStringExtra("name");

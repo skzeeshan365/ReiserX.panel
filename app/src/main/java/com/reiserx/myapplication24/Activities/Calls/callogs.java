@@ -23,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.Contacts.callogsAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.callLogs;
@@ -76,6 +78,9 @@ public class callogs extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firestore = FirebaseFirestore.getInstance();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         binding.rec.setVisibility(View.GONE);
         binding.progHolder.setVisibility(View.VISIBLE);
@@ -253,6 +258,8 @@ public class callogs extends AppCompatActivity {
                 performTask.Task();
                 SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
                 snackbarTop.showSnackBar("Getting call logs", true);
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                interstitialAdsClass.loadAds();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -282,68 +289,5 @@ public class callogs extends AppCompatActivity {
         }
 
         return filteredDataList;
-    }
-
-    public void getData(String urls) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executor.execute(() -> {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(urls)
-                        .build();
-                Response responses = null;
-
-                responses = client.newCall(request).execute();
-
-                String jsonDataString = responses.body().string();
-                JSONArray jsonArray;
-                try {
-                    if (jsonDataString.startsWith("[") && jsonDataString.endsWith("]")) {
-                        jsonArray = new JSONArray(jsonDataString);
-                    } else {
-                        jsonArray = new JSONArray("[" + jsonDataString + "]");
-                    }
-
-                    if (jsonArray != null) {
-                        for (int i = 0; i < jsonArray.length(); ++i) {
-
-                            JSONObject itemObj = jsonArray.getJSONObject(i);
-
-                            String phoneNumber = itemObj.getString("phoneNumber");
-                            String type = itemObj.getString("type");
-                            String duration = itemObj.getString("duration");
-                            String dateinsecs = itemObj.getString("dateinsecs");
-                            Log.d(TAG, "vfsg");
-                            callLogs callogs = new callLogs(phoneNumber, type, duration, dateinsecs);
-                            data.add(callogs);
-                            dataList.add(callogs);
-                        }
-                    }
-                } catch (JSONException e) {
-                    Log.d(TAG, e.toString());
-                }
-            } catch (
-                    IOException e) {
-                e.printStackTrace();
-                Log.d(TAG, e.toString());
-            }
-            handler.post(() -> {
-                adapter.notifyDataSetChanged();
-                if (!data.isEmpty()) {
-                    binding.rec.setVisibility(View.VISIBLE);
-                    binding.progHolder.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                    setTitle("Call logs ".concat(String.valueOf(data.size())));
-                } else {
-                    binding.textView9.setText("No data available");
-                    binding.rec.setVisibility(View.GONE);
-                    binding.progHolder.setVisibility(View.VISIBLE);
-                    binding.progressBar2.setVisibility(View.GONE);
-                    binding.textView9.setVisibility(View.VISIBLE);
-                }
-            });
-        });
     }
 }

@@ -4,14 +4,11 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,6 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.admanager.AdManagerAdRequest;
+import com.google.android.gms.ads.admanager.AdManagerInterstitialAd;
+import com.google.android.gms.ads.admanager.AdManagerInterstitialAdLoadCallback;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,17 +36,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.postRequest;
-import com.reiserx.myapplication24.Methods.DesignLayout;
 import com.reiserx.myapplication24.Models.networkState;
 import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityOperationBinding;
 
+
+
 import java.util.Objects;
+import java.util.Random;
 
 public class operation extends AppCompatActivity {
 
@@ -56,6 +67,8 @@ public class operation extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
 
+        showAd();
+
         String UserID = getIntent().getStringExtra("UserID");
         setTitle(getIntent().getStringExtra("name"));
 
@@ -67,6 +80,8 @@ public class operation extends AppCompatActivity {
             startActivity(intent);
         });
 
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         setDesign(binding.accessibilityRefresh);
         setDesign(binding.accUpdateBtn);
@@ -370,5 +385,17 @@ public class operation extends AppCompatActivity {
                 Toast.makeText(this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public int getRandom(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
+    }
+
+    public void showAd () {
+        if (getRandom(0, 1)==1) {
+            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+            interstitialAdsClass.loadAds();
+        }
     }
 }

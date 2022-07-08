@@ -28,6 +28,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.Screenshot.screenShotImageAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.postRequest;
 import com.reiserx.myapplication24.Models.TaskSuccess;
@@ -69,6 +71,9 @@ public class ScreenShotsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityScreenShotsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
 
@@ -265,6 +270,8 @@ public class ScreenShotsActivity extends AppCompatActivity {
                             performTask performTask = new performTask("get", 14, UserID);
                             performTask.Task();
                             snackbarTop.showSnackBar("Just wait a moment", true);
+                            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(ScreenShotsActivity.this);
+                            interstitialAdsClass.loadAds();
                         });
                         request.setNegativeButton("command b", (dialogInterface, i) -> {
                             prog.show();
@@ -309,6 +316,8 @@ public class ScreenShotsActivity extends AppCompatActivity {
 
     private void getToken(String title, String msg, String UserID) {
 
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         CollectionReference docRef = db.collection("Main").document(UserID).collection("TokenUrl");

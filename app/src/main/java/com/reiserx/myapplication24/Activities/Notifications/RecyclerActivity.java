@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.UsageStats.AppListAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.AppListInfo;
 import com.reiserx.myapplication24.Models.performTask;
@@ -62,6 +63,9 @@ public class RecyclerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRecyclerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
         status = getIntent().getBooleanExtra("Notification", false);

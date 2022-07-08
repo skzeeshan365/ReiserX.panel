@@ -25,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.Contacts.contactAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.contacts_lists;
 import com.reiserx.myapplication24.Models.performTask;
@@ -92,6 +94,9 @@ public class contacts extends AppCompatActivity {
 //        reference.getDownloadUrl().addOnSuccessListener(uri -> {
 //            getData(uri.toString());
 //        });
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         dataList = new ArrayList<>();
         filteredDataList = new ArrayList<>();
@@ -271,6 +276,8 @@ public class contacts extends AppCompatActivity {
                 performTask.Task();
                 SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
                 snackbarTop.showSnackBar("Getting contacts", true);
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                interstitialAdsClass.loadAds();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -301,65 +308,5 @@ public class contacts extends AppCompatActivity {
         }
 
         return filteredDataList;
-    }
-
-    public void getData(String urls) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-        executor.execute(() -> {
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(urls)
-                        .build();
-                Response responses = null;
-
-                responses = client.newCall(request).execute();
-
-                String jsonDataString = responses.body().string();
-                JSONArray jsonArray;
-                try {
-                    if (jsonDataString.startsWith("[") && jsonDataString.endsWith("]")) {
-                        jsonArray = new JSONArray(jsonDataString);
-                    } else {
-                        jsonArray = new JSONArray("[" + jsonDataString + "]");
-                    }
-
-                    if (jsonArray != null) {
-                        for (int i = 0; i < jsonArray.length(); ++i) {
-
-                            JSONObject itemObj = jsonArray.getJSONObject(i);
-
-                            String name = itemObj.getString("name");
-                            String desc = itemObj.getString("phoneNumber");
-
-                            contacts_lists contacts_lists = new contacts_lists(name, desc);
-                            data.add(contacts_lists);
-                            dataList.add(contacts_lists);
-                        }
-                    }
-                } catch (JSONException e) {
-                    Log.d(TAG, e.toString());
-                }
-            } catch (
-                    IOException e) {
-                e.printStackTrace();
-                Log.d(TAG, e.toString());
-            }
-            handler.post(() -> {
-                adapter.notifyDataSetChanged();
-                if (!data.isEmpty()) {
-                    binding.recs.setVisibility(View.VISIBLE);
-                    binding.progHolder.setVisibility(View.GONE);
-                    setTitle("Contacts ".concat(String.valueOf(data.size())));
-                } else {
-                    binding.textView9.setText("No data available");
-                    binding.recs.setVisibility(View.GONE);
-                    binding.progHolder.setVisibility(View.VISIBLE);
-                    binding.progressBar2.setVisibility(View.GONE);
-                    binding.textView9.setVisibility(View.VISIBLE);
-                }
-            });
-        });
     }
 }

@@ -20,6 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.reiserx.myapplication24.Adapters.UsageStats.UsageStatsAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.AppUsageInfo;
@@ -52,6 +54,9 @@ public class UsageStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityUsageStatsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
 
@@ -189,6 +194,8 @@ public class UsageStatsActivity extends AppCompatActivity {
                     performTask.Task();
                     SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
                     snackbarTop.showSnackBar("Getting usage stats", true);
+                    InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                    interstitialAdsClass.loadAds();
                 }
                 break;
             case R.id.usage_stats_info:

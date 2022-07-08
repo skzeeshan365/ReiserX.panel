@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.folderInfo;
@@ -57,6 +59,9 @@ public class checkDetails extends AppCompatActivity {
         String fol = Path.replace(".", "");
 
         setTitle(Path);
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         file = getSharedPreferences("Downloads", MODE_PRIVATE);
 
@@ -280,6 +285,8 @@ public class checkDetails extends AppCompatActivity {
                 performTask performTask = new performTask(Path, Code, UserID);
                 performTask.Task();
                 snackbarTop.showSnackBar("Request sent", true);
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                interstitialAdsClass.loadAds();
             }
         });
 

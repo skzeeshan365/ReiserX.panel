@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.R;
 
 import org.json.JSONArray;
@@ -115,6 +116,8 @@ public class postRequest {
                 });
                 dialog.setCancelable(false);
                 dialog.show();
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
+                interstitialAdsClass.loadAds();
             });
         });
     }

@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Directories.directorysAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.Folders;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityDirectorysBinding;
@@ -44,6 +45,9 @@ public class DirectorysActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         String UserID = getIntent().getStringExtra("UserID");
 

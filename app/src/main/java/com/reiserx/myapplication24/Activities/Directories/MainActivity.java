@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Directories.ImageAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.FileUpload;
 import com.reiserx.myapplication24.databinding.ActivityMainBinding;
 
@@ -45,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
+
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
 
         String UserID = getIntent().getStringExtra("UserID");
         String getPath = getIntent().getStringExtra("Path");

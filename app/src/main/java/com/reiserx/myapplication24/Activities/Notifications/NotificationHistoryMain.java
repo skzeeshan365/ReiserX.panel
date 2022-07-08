@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.reiserx.myapplication24.Adapters.Notifications.NotificationHistoryMainAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.NotificationPath;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityNotificationHistoryMainBinding;
@@ -47,6 +48,9 @@ public class NotificationHistoryMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNotificationHistoryMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
         String refrence = getIntent().getStringExtra("Path");

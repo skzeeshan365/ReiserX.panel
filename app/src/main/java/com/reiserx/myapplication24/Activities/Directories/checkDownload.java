@@ -12,6 +12,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.databinding.ActivityCheckDownloadBinding;
 
 import java.util.Locale;
@@ -28,6 +30,9 @@ public class checkDownload extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCheckDownloadBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         prog = new ProgressDialog(this);
         prog.setMessage("Getting files...");
@@ -49,6 +54,8 @@ public class checkDownload extends AppCompatActivity {
                 if (snapshot.exists()) {
                     binding.images.setVisibility(View.VISIBLE);
                     binding.images.setOnClickListener(v -> {
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(checkDownload.this);
+                        interstitialAdsClass.loadAds();
                         Intent intent = new Intent(checkDownload.this, MainActivity.class);
                         intent.putExtra("UserID", UserID);
                         intent.putExtra("Path", Path);
@@ -74,6 +81,8 @@ public class checkDownload extends AppCompatActivity {
                     binding.videos.setVisibility(View.VISIBLE);
 
                     binding.videos.setOnClickListener(v -> {
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(checkDownload.this);
+                        interstitialAdsClass.loadAds();
                         Intent intent = new Intent(checkDownload.this, viewfilesActivity.class);
                         intent.putExtra("UserID", UserID);
                         intent.putExtra("Message", "Videos");
@@ -97,6 +106,8 @@ public class checkDownload extends AppCompatActivity {
                 if (snapshot.exists()) {
                     binding.audios.setVisibility(View.VISIBLE);
                     binding.audios.setOnClickListener(v -> {
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(checkDownload.this);
+                        interstitialAdsClass.loadAds();
                         Intent intent = new Intent(checkDownload.this, viewfilesActivity.class);
                         intent.putExtra("UserID", UserID);
                         intent.putExtra("Message", "Audios");
@@ -119,6 +130,8 @@ public class checkDownload extends AppCompatActivity {
                 if (snapshot.exists()) {
                     binding.pdfBtn.setVisibility(View.VISIBLE);
                     binding.pdfBtn.setOnClickListener(v -> {
+                        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(checkDownload.this);
+                        interstitialAdsClass.loadAds();
                         Intent intent = new Intent(checkDownload.this, viewfilesActivity.class);
                         intent.putExtra("UserID", UserID);
                         intent.putExtra("Message", "PDF");

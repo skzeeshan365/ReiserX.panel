@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.ortiz.touchview.TouchImageView;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.Utilities.CONSTANTS;
@@ -27,6 +29,9 @@ public class ImageViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityImageViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         String Url = getIntent().getStringExtra("url");
 
@@ -61,6 +66,8 @@ public class ImageViewActivity extends AppCompatActivity {
             out.close();
             SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
             snackbarTop.showSnackBar("Image saved at "+myDir, true);
+            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+            interstitialAdsClass.loadAds();
 
         } catch (Exception e) {
             e.printStackTrace();

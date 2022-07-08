@@ -26,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.Notify;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.locationModel;
@@ -56,6 +58,9 @@ public class location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         UserID = getIntent().getStringExtra("UserID");
 
@@ -90,6 +95,8 @@ public class location extends AppCompatActivity {
             ClipData clip = ClipData.newPlainText("", latitude.concat(",".concat(longitude)));
             clipboard.setPrimaryClip(clip);
             snackbarTop.showSnackBar("Location copied to clipboard", true);
+            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+            interstitialAdsClass.loadAds();
         });
         locationStatus(UserID);
         binding.fetchLoc.setOnClickListener(view -> trace(UserID));
@@ -197,6 +204,8 @@ public class location extends AppCompatActivity {
                     performTask performTask = new performTask("Get location", requestCode, UserID);
                     performTask.Task();
                     snackbarTop.showSnackBar("Please wait, it will take a moment", true);
+                    InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                    interstitialAdsClass.loadAds();
                 }
             }
         });

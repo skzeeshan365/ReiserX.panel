@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Methods.DesignLayout;
 import com.reiserx.myapplication24.databinding.ActivityTextViewerBinding;
 
@@ -20,6 +21,9 @@ public class TextViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTextViewerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         String data = getIntent().getStringExtra("data");
         long timestamp = getIntent().getLongExtra("timestamp", 0);

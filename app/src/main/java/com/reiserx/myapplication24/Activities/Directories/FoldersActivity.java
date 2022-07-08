@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Directories.FoldersAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.AdminAccess;
 import com.reiserx.myapplication24.Models.Folders;
 import com.reiserx.myapplication24.Models.performTask;
@@ -52,6 +54,12 @@ public class FoldersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         FirebaseApp.initializeApp(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
+
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
 
         UserID = getIntent().getStringExtra("UserID");
         path = getIntent().getStringExtra("Path");

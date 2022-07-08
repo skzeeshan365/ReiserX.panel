@@ -141,7 +141,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
-        android:minHeight="40dp"
+        android:minHeight="48dp"
         android:text="Switch"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,7 +156,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="left|center_vertical"
-        android:minHeight="40dp"
+        android:minHeight="48dp"
         android:text="Auto restart service"
         android:textColor="#FF5652"
         android:textSize="16sp"
@@ -305,5 +305,18 @@
             tools:srcCompat="@drawable/ic_baseline_info_24" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/banner_ad_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

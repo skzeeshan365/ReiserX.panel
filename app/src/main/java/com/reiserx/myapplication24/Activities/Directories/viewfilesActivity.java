@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.Directories.viewFilesAdapter;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.FileUpload;
 import com.reiserx.myapplication24.databinding.ActivityViewfilesBinding;
 
@@ -34,6 +36,12 @@ public class viewfilesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityViewfilesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
+
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
 
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();

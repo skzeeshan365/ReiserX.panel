@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.reiserx.myapplication24.Adapters.Others.opeationsAdapter;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.operationsModel;
 import com.reiserx.myapplication24.databinding.ActivityOperationListBinding;
 
@@ -28,6 +29,9 @@ public class OperationListActivity extends AppCompatActivity {
 
         String UserID = getIntent().getStringExtra("UserID");
         setTitle("Operations");
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         data = new ArrayList<>();
         binding.rec.setLayoutManager(new LinearLayoutManager(this));

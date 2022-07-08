@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -40,8 +43,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.reiserx.myapplication24.Activities.ParentActivities.ScanQr;
 import com.reiserx.myapplication24.Activities.ParentActivities.Test;
+import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.FileUtil;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
+import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.LogFileModel;
 import com.reiserx.myapplication24.Models.Users;
 import com.reiserx.myapplication24.Models.callLogs;
@@ -70,6 +76,8 @@ public class AppLogsActivity extends AppCompatActivity {
     SharedPreferences save;
     SharedPreferences.Editor myEdit;
 
+    ProgressDialog prog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +89,11 @@ public class AppLogsActivity extends AppCompatActivity {
 
         snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
 
+        prog = new ProgressDialog(this);
+        prog.setMessage("Processing...");
 
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         save = getSharedPreferences("Tokens", MODE_PRIVATE);
         myEdit = save.edit();
@@ -168,7 +180,28 @@ public class AppLogsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logfile_get:
-                selectLines(UserID);
+                prog.show();
+                FirebaseDatabase.getInstance().getReference("Administration").child("Administrators").child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            Administrators admins = snapshot.getValue(Administrators.class);
+                            if (admins != null && admins.role.equals("User")) {
+                                prog.dismiss();
+                                selectLines(UserID);
+                            } else if (admins != null && admins.role.equals("Admin")) {
+                                prog.dismiss();
+                                Administration_getLogFile();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        prog.dismiss();
+                        snackbarTop.showSnackBar("error: "+error, false);
+                    }
+                });
                 break;
             case R.id.logfile_save:
                 saveLogFile();
@@ -178,6 +211,32 @@ public class AppLogsActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Administration_getLogFile() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        View mView = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
+        final EditText input = mView.findViewById(R.id.editTextNumber);
+
+        alert.setTitle("Log lines");
+        alert.setMessage("Please enter number of lines in logfile");
+        alert.setView(mView);
+
+        alert.setPositiveButton("save", (dialog, whichButton) -> {
+            if (!input.getText().toString().trim().equals("")) {
+                String data = input.getText().toString();
+                performTask performTask = new performTask(data, 21, UserID);
+                performTask.Task();
+                snackbarTop.showSnackBar("Request sent", true);
+                InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+                interstitialAdsClass.loadAds();
+            } else snackbarTop.showSnackBar("Please enter log lines", false);
+        });
+
+        alert.setNegativeButton("cancel", null);
+
+        alert.show();
     }
 
     private void saveLogFile() {
