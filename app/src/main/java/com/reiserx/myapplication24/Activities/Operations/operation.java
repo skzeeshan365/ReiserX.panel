@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -16,17 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.admanager.AdManagerAdRequest;
-import com.google.android.gms.ads.admanager.AdManagerInterstitialAd;
-import com.google.android.gms.ads.admanager.AdManagerInterstitialAdLoadCallback;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +27,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
-import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
+import com.reiserx.myapplication24.Advertisements.NativeAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.postRequest;
@@ -46,10 +36,7 @@ import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityOperationBinding;
 
-
-
 import java.util.Objects;
-import java.util.Random;
 
 public class operation extends AppCompatActivity {
 
@@ -57,6 +44,8 @@ public class operation extends AppCompatActivity {
 
     FirebaseDatabase database;
     FirebaseDatabase mdb = FirebaseDatabase.getInstance();
+
+    ColorDrawable colorDrawable;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -67,10 +56,18 @@ public class operation extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
 
-        showAd();
+        InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
+        interstitialAdsClass.loadAds();
 
         String UserID = getIntent().getStringExtra("UserID");
         setTitle(getIntent().getStringExtra("name"));
+
+        setDesign(binding.accessibilityRefresh);
+        setDesign(binding.accUpdateBtn);
+
+        colorDrawable = (ColorDrawable) binding.mainLayout.getBackground();
+        NativeAdsClass nativeAdsClass = new NativeAdsClass(this, binding.myTemplate, colorDrawable);
+        nativeAdsClass.loadAd();
 
         userStatus(UserID);
 
@@ -79,12 +76,6 @@ public class operation extends AppCompatActivity {
             intent.putExtra("UserID", UserID);
             startActivity(intent);
         });
-
-        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
-        bannerAdsClass.adsCode();
-
-        setDesign(binding.accessibilityRefresh);
-        setDesign(binding.accUpdateBtn);
 
         binding.accUpdateBtn.setOnClickListener(view -> {
             RequiresVersion requiresVersion = new RequiresVersion(this, UserID);
@@ -360,7 +351,6 @@ public class operation extends AppCompatActivity {
             case Configuration.UI_MODE_NIGHT_NO:
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
-
                 view.setColorFilter(getColor(R.color.purple_500));
                 break;
         }
@@ -385,17 +375,5 @@ public class operation extends AppCompatActivity {
                 Toast.makeText(this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public int getRandom(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(max - min + 1) + min;
-    }
-
-    public void showAd () {
-        if (getRandom(0, 1)==1) {
-            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
-            interstitialAdsClass.loadAds();
-        }
     }
 }

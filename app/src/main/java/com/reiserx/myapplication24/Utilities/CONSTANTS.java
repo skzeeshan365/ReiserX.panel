@@ -2,8 +2,6 @@ package com.reiserx.myapplication24.Utilities;
 
 import android.os.Environment;
 
-import java.io.File;
-
 public class CONSTANTS {
     public static String fileStorage () {
         return Environment.getExternalStorageDirectory()+ "/ReiserX";

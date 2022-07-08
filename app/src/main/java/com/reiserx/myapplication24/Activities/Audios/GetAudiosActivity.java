@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
 import com.reiserx.myapplication24.Adapters.Audios.AudiosAdapter;
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.Advertisements.bannerAdsClass;

@@ -4,8 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,25 +30,26 @@ import com.reiserx.myapplication24.Activities.Camera.CameraActivity;
 import com.reiserx.myapplication24.Activities.Directories.DirectorysActivity;
 import com.reiserx.myapplication24.Activities.Locations.location;
 import com.reiserx.myapplication24.Activities.Logs.AppLogsActivity;
+import com.reiserx.myapplication24.Activities.Logs.ErrorLogs;
 import com.reiserx.myapplication24.Activities.Notifications.NotificationHistoryMain;
 import com.reiserx.myapplication24.Activities.Notifications.RecyclerActivity;
-import com.reiserx.myapplication24.Activities.Logs.ErrorLogs;
-import com.reiserx.myapplication24.Activities.Operations.operation;
 import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
 import com.reiserx.myapplication24.Activities.Usagestats.UsageStatsActivity;
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.NativeAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.postRequest;
 import com.reiserx.myapplication24.Models.deviceInfo;
 import com.reiserx.myapplication24.Models.operationsModel;
 import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
+import com.reiserx.myapplication24.databinding.NativeAdsLayoutSmallBinding;
 import com.reiserx.myapplication24.databinding.OperationCustomViewBinding;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.SingleViewHolder> {
+public class opeationsAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<operationsModel> data;
@@ -63,6 +64,9 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
 
     Intent intent;
 
+    final int DATA_CONTENT = 1;
+    final int ADS_CONTENT = 2;
+
     public opeationsAdapter(Context context, ArrayList<operationsModel> data, String userID, ProgressDialog prog) {
         this.context = context;
         this.data = data;
@@ -72,21 +76,44 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
 
     @NonNull
     @Override
-    public opeationsAdapter.SingleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.operation_custom_view, parent, false);
-        return new opeationsAdapter.SingleViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == DATA_CONTENT) {
+            View view = LayoutInflater.from(context).inflate(R.layout.operation_custom_view, parent, false);
+            return new DataViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.native_ads_layout_small, parent, false);
+            return new AdsViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull opeationsAdapter.SingleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         operationsModel model = data.get(position);
 
-        holder.binding.textView.setText(model.getName());
-        holder.binding.getRoot().setOnClickListener(v -> {
-        });
-        holder.itemView.setOnClickListener(view -> {
-            clicked(model.getPosition());
-        });
+        if (holder.getClass() == DataViewHolder.class) {
+            DataViewHolder viewHolder = (DataViewHolder) holder;
+            viewHolder.binding.textView.setText(model.getName());
+            viewHolder.binding.getRoot().setOnClickListener(v -> {
+            });
+            holder.itemView.setOnClickListener(view -> {
+                clicked(model.getPosition());
+            });
+        } else if (holder.getClass() == AdsViewHolder.class) {
+            AdsViewHolder viewHolder = (AdsViewHolder) holder;
+            ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.dark));
+            NativeAdsClass nativeAdsClass = new NativeAdsClass(context, viewHolder.binding.myTemplate, colorDrawable);
+            nativeAdsClass.loadAd();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        operationsModel model = data.get(position);
+        if (position == 3 || position == 8 || position == 11 || position == 16) {
+            return ADS_CONTENT;
+        } else {
+            return DATA_CONTENT;
+        }
     }
 
     private void clicked(int position) {
@@ -114,13 +141,13 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 3:
+            case 4:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, location.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 4:
+            case 5:
                 interstitialAdsClass.loadAds();
                 if (requiresVersion.Requires(2.7f)) {
                     intent = new Intent(context, NotificationHistoryMain.class);
@@ -130,7 +157,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     context.startActivity(intent);
                 }
                 break;
-            case 5:
+            case 6:
                 if (requiresVersion.Requires(3.8f)) {
                     ProgressDialog prog = new ProgressDialog(context);
                     prog.setMessage("Processing...");
@@ -177,7 +204,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     });
                 }
                 break;
-            case 6:
+            case 7:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, GetAudiosActivity.class);
@@ -185,7 +212,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     context.startActivity(intent);
                 }
                 break;
-            case 7:
+            case 9:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, CameraActivity.class);
@@ -193,29 +220,29 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     context.startActivity(intent);
                 }
                 break;
-            case 8:
+            case 10:
                 ClearPreferences();
                 break;
-            case 9:
+            case 12:
                 ServiceRestart(UserID);
                 break;
-            case 10:
+            case 13:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, RecyclerActivity.class);
                 intent.putExtra("UserID", UserID);
                 intent.putExtra("Notification", false);
                 context.startActivity(intent);
                 break;
-            case 11:
+            case 14:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, UsageStatsActivity.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 12:
+            case 15:
                 deviceInfo(UserID);
                 break;
-            case 13:
+            case 17:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, AppLogsActivity.class);
@@ -223,7 +250,7 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
                     context.startActivity(intent);
                 }
                 break;
-            case 14:
+            case 18:
                 interstitialAdsClass.loadAds();
                     intent = new Intent(context, ErrorLogs.class);
                     intent.putExtra("UserID", UserID);
@@ -237,13 +264,23 @@ public class opeationsAdapter extends RecyclerView.Adapter<opeationsAdapter.Sing
         return data.size();
     }
 
-    public class SingleViewHolder extends RecyclerView.ViewHolder {
+    public class DataViewHolder extends RecyclerView.ViewHolder {
 
         OperationCustomViewBinding binding;
 
-        public SingleViewHolder(@NonNull View itemView) {
+        public DataViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = OperationCustomViewBinding.bind(itemView);
+        }
+    }
+
+    public class AdsViewHolder extends RecyclerView.ViewHolder {
+
+        NativeAdsLayoutSmallBinding binding;
+
+        public AdsViewHolder(@NonNull View itemView) {
+            super(itemView);
+            binding = NativeAdsLayoutSmallBinding.bind(itemView);
         }
     }
 

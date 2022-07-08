@@ -2,7 +2,6 @@ package com.reiserx.myapplication24.Activities.ScreenShots;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +45,7 @@ public class ScreenShotsActivity extends AppCompatActivity {
     ActivityScreenShotsBinding binding;
 
     ArrayList<downloadUrl> data;
+    ArrayList<downloadUrl> dataWithAds;
     screenShotImageAdapter adapter;
 
     String UserID;
@@ -87,9 +87,10 @@ public class ScreenShotsActivity extends AppCompatActivity {
         setTitle("Screenshots");
 
         data = new ArrayList<>();
+        dataWithAds = new ArrayList<>();
         layoutManager = new LinearLayoutManager(this);
         binding.rec.setLayoutManager(layoutManager);
-        adapter = new screenShotImageAdapter(this, data, UserID, findViewById(android.R.id.content));
+        adapter = new screenShotImageAdapter(this, dataWithAds, UserID, findViewById(android.R.id.content));
         binding.rec.setAdapter(adapter);
         refresh();
 
@@ -114,6 +115,7 @@ public class ScreenShotsActivity extends AppCompatActivity {
         query.addSnapshotListener((task, error) -> {
             if (task != null) {
                 data.clear();
+                dataWithAds.clear();
                 for (DocumentSnapshot document : Objects.requireNonNull(task.getDocuments())) {
                     downloadUrl cn = document.toObject(downloadUrl.class);
                     if (cn != null) {
@@ -122,6 +124,19 @@ public class ScreenShotsActivity extends AppCompatActivity {
                     }
                 }
                 if (!data.isEmpty()) {
+                    int adPos = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        if (adPos == 3) {
+                            downloadUrl cn = new downloadUrl();
+                            cn.setAd(true);
+                            dataWithAds.add(cn);
+                            adPos = 0;
+                        }
+                        downloadUrl downloadUrl = data.get(i);
+                        downloadUrl.setAd(false);
+                        dataWithAds.add(downloadUrl);
+                        adPos++;
+                    }
                     binding.rec.setVisibility(View.VISIBLE);
                     binding.progHolder.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
@@ -195,6 +210,8 @@ public class ScreenShotsActivity extends AppCompatActivity {
 
         first.get().addOnSuccessListener((value) -> {
             if (value != null && !value.isEmpty()) {
+                data.clear();
+                dataWithAds.clear();
                 for (DocumentSnapshot document : Objects.requireNonNull(value.getDocuments())) {
                     downloadUrl cn = document.toObject(downloadUrl.class);
                     if (cn != null) {
@@ -203,6 +220,19 @@ public class ScreenShotsActivity extends AppCompatActivity {
                     data.add(cn);
                 }
                 if (!data.isEmpty()) {
+                    int adPos = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        if (adPos == 3) {
+                            downloadUrl cn = new downloadUrl();
+                            cn.setAd(true);
+                            dataWithAds.add(cn);
+                            adPos = 0;
+                        }
+                        downloadUrl downloadUrl = data.get(i);
+                        downloadUrl.setAd(false);
+                        dataWithAds.add(downloadUrl);
+                        adPos++;
+                    }
                     binding.rec.setVisibility(View.VISIBLE);
                     binding.progHolder.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();

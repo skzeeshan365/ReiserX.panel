@@ -1,10 +1,7 @@
 package com.reiserx.myapplication24.Advertisements;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.LinearLayout;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;

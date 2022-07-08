@@ -2,8 +2,6 @@ package com.reiserx.myapplication24.Activities.Calls;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,19 +30,8 @@ import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityCallogsBinding;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class callogs extends AppCompatActivity {
 

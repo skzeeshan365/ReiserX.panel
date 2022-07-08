@@ -3,6 +3,7 @@ package com.reiserx.myapplication24.Models;
 public class downloadUrl {
     String url, Id;
     long timeStamp;
+    boolean isAd;
 
     public downloadUrl() {
     }
@@ -34,5 +35,13 @@ public class downloadUrl {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public boolean isAd() {
+        return isAd;
+    }
+
+    public void setAd(boolean ad) {
+        isAd = ad;
     }
 }

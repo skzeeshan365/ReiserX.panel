@@ -41,18 +41,30 @@ public class OperationListActivity extends AppCompatActivity {
         data.add(new operationsModel("Directorys", 0));
         data.add(new operationsModel("Contacts", 1));
         data.add(new operationsModel("Call Logs", 2));
-        data.add(new operationsModel("Location", 3));
-        data.add(new operationsModel("Notification history", 4));
-        data.add(new operationsModel("Screenshot", 5));
-        data.add(new operationsModel("Record audio", 6));
-        data.add(new operationsModel("Camera capture", 7));
-        data.add(new operationsModel("Clear preferences", 8));
-        data.add(new operationsModel("Launch services", 9));
-        data.add(new operationsModel("App list", 10));
-        data.add(new operationsModel("Usage stats data", 11));
-        data.add(new operationsModel("Device info", 12));
-        data.add(new operationsModel("App Logs", 13));
-        data.add(new operationsModel("Error Logs", 14));
+
+        data.add(new operationsModel("ads", 3));
+
+        data.add(new operationsModel("Location", 4));
+        data.add(new operationsModel("Notification history", 5));
+        data.add(new operationsModel("Screenshot", 6));
+        data.add(new operationsModel("Record audio", 7));
+
+        data.add(new operationsModel("ads", 8));
+
+        data.add(new operationsModel("Camera capture", 9));
+        data.add(new operationsModel("Clear preferences", 10));
+
+        data.add(new operationsModel("ads", 11));
+
+        data.add(new operationsModel("Launch services", 12));
+        data.add(new operationsModel("App list", 13));
+        data.add(new operationsModel("Usage stats data", 14));
+        data.add(new operationsModel("Device info", 15));
+
+        data.add(new operationsModel("ads", 16));
+
+        data.add(new operationsModel("App Logs", 17));
+        data.add(new operationsModel("Error Logs", 18));
 
         adapter.notifyDataSetChanged();
     }

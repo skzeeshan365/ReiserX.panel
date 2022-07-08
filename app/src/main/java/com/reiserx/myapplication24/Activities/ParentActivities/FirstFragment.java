@@ -23,7 +23,6 @@ import com.reiserx.myapplication24.Adapters.Audios.DeviceListAdaptet;
 import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.Users;
-import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.FragmentFirstBinding;
 
 import java.util.ArrayList;

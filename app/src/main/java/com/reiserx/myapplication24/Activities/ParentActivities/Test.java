@@ -76,7 +76,7 @@ public class Test extends AppCompatActivity {
     ActivityTestBinding binding;
 
     FirebaseDatabase mdb;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseAuth mAuth;
 
     private static final int MULTIPLE_PERMISSIONS = 123;
 
@@ -95,6 +95,7 @@ public class Test extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
         mdb = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         setSupportActionBar(binding.toolbar);
 
