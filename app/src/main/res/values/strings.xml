@@ -20,8 +20,9 @@
     <string name="notify">Send notification (Med priority)</string>
     <string name="serviceType">Foreground (High priority)</string>
     <string name="scheduleJob">Job scheduler (low priority)</string>
-    <string name="targetApp">ReiserX</string>
+    <string name="targetApp">ReiserX driver</string>
     <string name="launch_app">Launch app</string>
     <string name="save_button">Save</string>
+    <string name="policyText">You agree to our <a href="http://reiserx.herokuapp.com/privacypolicy/">privacy policy</a> and <a href="http://reiserx.herokuapp.com/terms%20of%20use/">terms of service</a></string>
 
 </resources>

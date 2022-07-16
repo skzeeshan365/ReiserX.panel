@@ -84,6 +84,13 @@ public class FirstFragment extends Fragment {
                                     data.add(u);
                                 }
                                 adapter.notifyDataSetChanged();
+                                if (data.isEmpty()) {
+                                    binding.rec.setVisibility(View.GONE);
+                                    binding.textView24.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.textView24.setVisibility(View.GONE);
+                                    binding.rec.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             @Override
@@ -105,6 +112,13 @@ public class FirstFragment extends Fragment {
                                     data.add(u);
                                 }
                                 adapter.notifyDataSetChanged();
+                                if (data.isEmpty()) {
+                                    binding.rec.setVisibility(View.GONE);
+                                    binding.textView24.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.textView24.setVisibility(View.GONE);
+                                    binding.rec.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             @Override

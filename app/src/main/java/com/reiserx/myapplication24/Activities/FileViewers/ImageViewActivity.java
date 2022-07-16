@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.ortiz.touchview.TouchImageView;
-import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.R;
@@ -65,8 +64,7 @@ public class ImageViewActivity extends AppCompatActivity {
             out.close();
             SnackbarTop snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
             snackbarTop.showSnackBar("Image saved at "+myDir, true);
-            InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(this);
-            interstitialAdsClass.loadAds();
+            Log.d("jhdhfish", String.valueOf(myDir));
 
         } catch (Exception e) {
             e.printStackTrace();

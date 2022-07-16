@@ -45,7 +45,7 @@ public class SetupActivity extends AppCompatActivity {
 
         data.add(new operationsModel("Privacy policy", 0));
         data.add(new operationsModel("Terms of use", 1));
-        data.add(new operationsModel("Setup", 2));
+        data.add(new operationsModel("Open source license", 2));
         adapter.notifyDataSetChanged();
     }
 

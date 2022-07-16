@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,9 +73,11 @@ public class LoginActivity extends AppCompatActivity {
 
         snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
 
+        binding.checkBox3.setMovementMethod(LinkMovementMethod.getInstance());
+
         if (isNetworkAvailable(this)) {
             Thread thread = new Thread(() -> {
-                try  {
+                try {
                     if (!isInternetAvailable()) {
                         snackbarTop.showSnackBar("No internet connection, please connect to network and retry", false);
                     }
@@ -93,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.textView5.setVisibility(View.GONE);
         binding.textView22.setVisibility(View.VISIBLE);
         binding.progressBar3.setVisibility(View.VISIBLE);
+        binding.checkBox3.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
         mdb = FirebaseDatabase.getInstance();
@@ -132,9 +136,15 @@ public class LoginActivity extends AppCompatActivity {
                                     i.putExtra("message", "You have been banned from using this service, please contact the developer if you think its a mistake.");
                                     startActivity(i);
                                 } else {
-                                    reload(uid, mdb);
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user.isEmailVerified()) {
+                                        reload(uid, mdb);
+                                    } else {
+                                        verifyEmail();
+                                    }
                                 }
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 snackbarTop.showSnackBar(String.valueOf(error), false);
@@ -148,13 +158,18 @@ public class LoginActivity extends AppCompatActivity {
                         binding.button.setVisibility(View.VISIBLE);
                         binding.linearLayout3.setVisibility(View.VISIBLE);
                         binding.textView5.setVisibility(View.VISIBLE);
+                        binding.checkBox3.setVisibility(View.VISIBLE);
                         binding.textView22.setVisibility(View.GONE);
                         binding.progressBar3.setVisibility(View.GONE);
-                        binding.button.setOnClickListener(v -> {
-                                String email = binding.editTextTextEmailAddress.getText().toString();
-                                String password = binding.editTextTextPassword.getText().toString();
 
-                                if (!email.equals("") && !password.equals("")) {
+                        Log.d(TAG, "home");
+                        Log.d(TAG, "checked");
+                        binding.button.setOnClickListener(v -> {
+                            String email = binding.editTextTextEmailAddress.getText().toString();
+                            String password = binding.editTextTextPassword.getText().toString();
+
+                            if (!email.equals("") && !password.equals("")) {
+                                if (binding.checkBox3.isChecked()) {
                                     prog.show();
                                     mdb.getReference("Administration").child("UserData").child(email.replaceAll("\\.", "")).addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -177,12 +192,16 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     });
                                 } else {
-                                    Snackbar.make(findViewById(android.R.id.content), "Please enter your details", Snackbar.LENGTH_LONG).show();
+                                    snackbarTop.showSnackBar("Please accept our privacy policy and terms of service agreement", false);
                                 }
+                            } else {
+                                Snackbar.make(findViewById(android.R.id.content), "Please enter your details", Snackbar.LENGTH_LONG).show();
+                            }
                         });
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 snackbarTop.showSnackBar(String.valueOf(error), false);
@@ -231,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Admin_Accounts data = new Admin_Accounts(UserID, email1);
                         if (email1 != null) {
-                            mdb.getReference("Administration").child("UserData").child(email1.replaceAll("\\.",""))
+                            mdb.getReference("Administration").child("UserData").child(email1.replaceAll("\\.", ""))
                                     .setValue(data)
                                     .addOnSuccessListener(unused -> {
                                         processToken(UserID);
@@ -256,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
 
         prog.setMessage("Updating data...");
 
-        SharedPreferences loginKey = getSharedPreferences("loginKey",MODE_PRIVATE);
+        SharedPreferences loginKey = getSharedPreferences("loginKey", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = loginKey.edit();
 
         generateKey generateKey = new generateKey();
@@ -287,9 +306,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void reload (String userID, FirebaseDatabase mdb) {
+    private void reload(String userID, FirebaseDatabase mdb) {
 
-        SharedPreferences loginKey = getSharedPreferences("loginKey",MODE_PRIVATE);
+        SharedPreferences loginKey = getSharedPreferences("loginKey", MODE_PRIVATE);
 
         mdb.getReference("Administration").child("Administrators").child(userID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -345,7 +364,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             }
                         });
-                    } else if (admins != null && admins.role.equals("Admin")){
+                    } else if (admins != null && admins.role.equals("Admin")) {
                         SharedPreferences save = getSharedPreferences("users", MODE_PRIVATE);
                         SharedPreferences.Editor myEdit = save.edit();
                         myEdit.putString("UserID", userID);
@@ -384,11 +403,18 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, Object> tokenData = new HashMap<>();
         tokenData.put("Notification token", token);
         document.set(tokenData)
-                .addOnSuccessListener(documentReference -> reload(userID, mdb))
+                .addOnSuccessListener(documentReference -> {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null && user.isEmailVerified()) {
+                        reload(userID, mdb);
+                    } else {
+                        verifyEmail();
+                    }
+                })
                 .addOnFailureListener(e -> {
                     FirebaseAuth auth = FirebaseAuth.getInstance();
                     FirebaseUser user = auth.getCurrentUser();
-                    if (user !=null) {
+                    if (user != null) {
                         auth.signOut();
                     }
                     finishAffinity();
@@ -396,12 +422,14 @@ public class LoginActivity extends AppCompatActivity {
                     Log.w(TAG, "Error adding document", e);
                 });
     }
+
     public void updateDeviceInfo(String userID) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference document = firestore.collection("Driver").document("Users").collection(userID).document("DeviceInfo");
         deviceInfo deviceInfo = new deviceInfo(Build.SERIAL, Build.MODEL, Build.ID, Build.MANUFACTURER, Build.USER, Build.VERSION.SDK_INT, Build.VERSION.RELEASE);
         document.set(deviceInfo);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.reset) {
@@ -409,11 +437,13 @@ public class LoginActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.login_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     public void resetPassword() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -449,11 +479,11 @@ public class LoginActivity extends AppCompatActivity {
                     builder.show();
                     Snackbar.make(findViewById(android.R.id.content), "Password reset complete", Snackbar.LENGTH_LONG).show();
                 }).addOnFailureListener(e -> {
-                    builder.setMessage("Password reset failed: "+e);
+                    builder.setMessage("Password reset failed: " + e);
                     builder.show();
-                Snackbar.make(findViewById(android.R.id.content), "Password reset failed", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Password reset failed", Snackbar.LENGTH_LONG).show();
 
-            });
+                });
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Please enter your email", Snackbar.LENGTH_LONG).show();
             }
@@ -465,6 +495,7 @@ public class LoginActivity extends AppCompatActivity {
 
         alert.show();
     }
+
     private void checkFirstRun(String uid) {
 
         final String PREFS_NAME = "MyPrefsFile";
@@ -486,6 +517,7 @@ public class LoginActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
+
     public boolean isInternetAvailable() {
         try {
             InetAddress address = InetAddress.getByName("www.google.com");
@@ -494,5 +526,13 @@ public class LoginActivity extends AppCompatActivity {
             // Log error
         }
         return false;
+    }
+
+    public void verifyEmail() {
+        Intent i = new Intent(LoginActivity.this, deactivated.class);
+        i.putExtra("title", "VERIFY EMAIL!");
+        i.putExtra("message", "Please verify your email in order to continue");
+        startActivity(i);
+        finish();
     }
 }

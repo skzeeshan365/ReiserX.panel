@@ -3,13 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/http"
-        android:title="Setup" />
+        android:id="@+id/about_menu1"
+        android:title="About" />
     <item
         android:id="@+id/logout"
         android:title="Logout"
         app:showAsAction="collapseActionView" />
-    <item
-        android:id="@+id/adminss"
-        android:title="Administration" />
 </menu>

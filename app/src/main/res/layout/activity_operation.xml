@@ -150,21 +150,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/acc_update_holder" />
 
-    <Switch
-        android:id="@+id/switch4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="left|center_vertical"
-        android:minHeight="48dp"
-        android:text="Auto restart service"
-        android:textColor="#FF5652"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
-
     <LinearLayout
         android:id="@+id/linearLayout8"
         android:layout_width="wrap_content"
@@ -229,7 +214,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch4">
+        app:layout_constraintTop_toBottomOf="@+id/switch1">
 
         <TextView
             android:id="@+id/textView13"

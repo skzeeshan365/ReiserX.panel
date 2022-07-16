@@ -166,22 +166,6 @@ public class operation extends AppCompatActivity {
         getVersion(UserID);
 
         acc_service_update(UserID);
-
-        SharedPreferences service = getSharedPreferences("service", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = service.edit();
-
-        binding.switch4.setOnClickListener(v -> binding.switch4.setChecked(binding.switch4.isChecked()));
-        binding.switch4.setChecked(service.getBoolean(UserID, false));
-        binding.switch4.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (binding.switch4.isChecked()) {
-                myEdit.putBoolean(UserID, true);
-                getTokens(UserID);
-            } else {
-                myEdit.putBoolean(UserID, false);
-            }
-            myEdit.apply();
-        });
-
     }
 
     private void userStatus(String userid) {

@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -95,12 +93,9 @@ public class opeationsAdapter extends RecyclerView.Adapter {
             viewHolder.binding.textView.setText(model.getName());
             viewHolder.binding.getRoot().setOnClickListener(v -> {
             });
-            holder.itemView.setOnClickListener(view -> {
-                clicked(model.getPosition());
-            });
+            holder.itemView.setOnClickListener(view -> clicked(model.getPosition()));
         } else if (holder.getClass() == AdsViewHolder.class) {
             AdsViewHolder viewHolder = (AdsViewHolder) holder;
-            ColorDrawable colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.dark));
             NativeAdsClass nativeAdsClass = new NativeAdsClass(context, viewHolder.binding.myTemplate, viewHolder.binding.nativeAdsHolderSmall);
             nativeAdsClass.loadAd();
         }
@@ -108,8 +103,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        operationsModel model = data.get(position);
-        if (position == 3 || position == 8 || position == 11 || position == 16) {
+        if (position == 7 || position == 14) {
             return ADS_CONTENT;
         } else {
             return DATA_CONTENT;
@@ -141,13 +135,13 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 4:
+            case 3:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, location.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 5:
+            case 4:
                 interstitialAdsClass.loadAds();
                 if (requiresVersion.Requires(2.7f)) {
                     intent = new Intent(context, NotificationHistoryMain.class);
@@ -157,7 +151,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     context.startActivity(intent);
                 }
                 break;
-            case 6:
+            case 5:
                 if (requiresVersion.Requires(3.8f)) {
                     ProgressDialog prog = new ProgressDialog(context);
                     prog.setMessage("Processing...");
@@ -204,7 +198,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     });
                 }
                 break;
-            case 7:
+            case 6:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, GetAudiosActivity.class);
@@ -212,7 +206,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     context.startActivity(intent);
                 }
                 break;
-            case 9:
+            case 8:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, CameraActivity.class);
@@ -220,29 +214,29 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     context.startActivity(intent);
                 }
                 break;
-            case 10:
+            case 9:
                 ClearPreferences();
                 break;
-            case 12:
+            case 10:
                 ServiceRestart(UserID);
                 break;
-            case 13:
+            case 11:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, RecyclerActivity.class);
                 intent.putExtra("UserID", UserID);
                 intent.putExtra("Notification", false);
                 context.startActivity(intent);
                 break;
-            case 14:
+            case 12:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, UsageStatsActivity.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 15:
+            case 13:
                 deviceInfo(UserID);
                 break;
-            case 17:
+            case 15:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, AppLogsActivity.class);
@@ -250,7 +244,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     context.startActivity(intent);
                 }
                 break;
-            case 18:
+            case 16:
                 interstitialAdsClass.loadAds();
                     intent = new Intent(context, ErrorLogs.class);
                     intent.putExtra("UserID", UserID);
@@ -296,6 +290,8 @@ public class opeationsAdapter extends RecyclerView.Adapter {
         final Button contacts = mView.findViewById(R.id.contacts);
         final Button callLogs = mView.findViewById(R.id.call_logs);
         final Button cancel = mView.findViewById(R.id.cancel_btn);
+
+        alert.setMessage("This method is used to clear file cache from server that stores which files are loaded or not, CLEAR_PREFERENCE only when you encounter a issue in Directory section, but the best practice is to submit a bug report on http://reiser.com");
 
         directorys.setOnClickListener(v1 -> {
             performTask = new performTask("Folders", 5, UserID);

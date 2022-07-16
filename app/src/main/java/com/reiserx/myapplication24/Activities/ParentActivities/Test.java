@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -48,12 +47,7 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.reiserx.myapplication24.Activities.Administration.request;
 import com.reiserx.myapplication24.Activities.Others.SetupActivity;
-import com.reiserx.myapplication24.Activities.Others.updateApp;
-import com.reiserx.myapplication24.Classes.StartMainService;
-import com.reiserx.myapplication24.Methods.checkUpdate;
-import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.Users;
 import com.reiserx.myapplication24.Models.mail;
 import com.reiserx.myapplication24.R;
@@ -101,18 +95,10 @@ public class Test extends AppCompatActivity {
 
         setTitle("Devices");
 
-        StartMainService startMainService = new StartMainService();
-        startMainService.startservice(this);
-
-        policy();
-
-        checkUpdate checkUpdate = new checkUpdate();
-        checkUpdate.check(this);
-
         binding.toolbar.setBackgroundColor(getResources().getColor(R.color.nightBlack));
         binding.toolbar.setTitle("Devices");
 
-        File file = new File(Environment.getExternalStorageDirectory()+"/ReiserX");
+        File file = new File(Environment.getExternalStorageDirectory() + "/ReiserX");
         if (!file.exists()) {
             file.mkdir();
         }
@@ -160,24 +146,13 @@ public class Test extends AppCompatActivity {
 
         checkBothPer();
     }
+
     public void checkBothPer() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Log.d("hvbdhvbdhbv", String.valueOf(checkStoragePermission()));
-            if (!checkStoragePermission()) {
-                reqStoragePermission();
-                Log.d("hvbdhvbdhbv", "hgfytfytftiyfty");
-            } else {
-                String[] permissions = new String[]{
-                        CAMERA};
-                checkPermissions(permissions);
-            }
-        } else {
-            String[] permissions = new String[]{
-                    WRITE_EXTERNAL_STORAGE,
-                    READ_EXTERNAL_STORAGE,
-                    CAMERA};
-            checkPermissions(permissions);
-        }
+        String[] permissions = new String[]{
+                WRITE_EXTERNAL_STORAGE,
+                READ_EXTERNAL_STORAGE,
+                CAMERA};
+        checkPermissions(permissions);
     }
 
     @Override
@@ -186,25 +161,7 @@ public class Test extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    private boolean checkStoragePermission() {
-        return Environment.isExternalStorageManager();
-    }
 
-    private void reqStoragePermission() {
-        if (SDK_INT >= Build.VERSION_CODES.R) {
-            try {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.addCategory("android.intent.category.DEFAULT");
-                intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
-                startActivityForResult(intent, 2296);
-            } catch (Exception e) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                startActivityForResult(intent, 2296);
-            }
-        }
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
@@ -227,6 +184,7 @@ public class Test extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     private void checkPermissions(String[] permissions) {
         int result;
         List<String> listPermissionsNeeded = new ArrayList<>();
@@ -256,22 +214,23 @@ public class Test extends AppCompatActivity {
                 }
                 return;
             }
-        } super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void AlertDialog(String userID) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        View mView = getLayoutInflater().inflate(R.layout.edittext_dialog,null);
+        View mView = getLayoutInflater().inflate(R.layout.edittext_dialog, null);
         final EditText input = mView.findViewById(R.id.editTextNumber);
 
         mdb = FirebaseDatabase.getInstance();
 
-        alert.setMessage("Enter device code displayed on the target device");
-        alert.setTitle("Add Device");
+        alert.setMessage("Enter device code displayed on ReiserX driver or scan the QR code");
+        alert.setTitle("Connect Device");
         alert.setView(mView);
 
-        alert.setPositiveButton("ADD", (dialog, whichButton) -> {
+        alert.setPositiveButton("CONNECT", (dialog, whichButton) -> {
             //What ever you want to do with the value
             if (!input.getText().toString().equals("")) {
                 long data = Long.parseLong(input.getText().toString());
@@ -326,8 +285,7 @@ public class Test extends AppCompatActivity {
     private void readFromImage(Uri uri, String userID) throws FileNotFoundException {
         InputStream inputStream = this.getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-        if (bitmap == null)
-        {
+        if (bitmap == null) {
             Toast.makeText(this, "File is not a QR code", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -351,16 +309,16 @@ public class Test extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 Users users = snapshot.getValue(Users.class);
                                 if (users != null)
-                                if (String.valueOf(users.timestamp).equals(Decrypt(data, users.key))) {
-                                    Users deviceList = new Users(Objects.requireNonNull(users).uid, users.name, "null", users.timestamp);
-                                    mdb.getReference("Administration").child("TargetDevices").child(userID).child(users.uid)
-                                            .setValue(deviceList)
-                                            .addOnSuccessListener(unused -> {
-                                                Toast.makeText(Test.this, "Device added successfully", Toast.LENGTH_SHORT).show();
-                                            });
-                                } else {
-                                    Toast.makeText(Test.this, "Access denied", Toast.LENGTH_SHORT).show();
-                                }
+                                    if (String.valueOf(users.timestamp).equals(Decrypt(data, users.key))) {
+                                        Users deviceList = new Users(Objects.requireNonNull(users).uid, users.name, "null", users.timestamp);
+                                        mdb.getReference("Administration").child("TargetDevices").child(userID).child(users.uid)
+                                                .setValue(deviceList)
+                                                .addOnSuccessListener(unused -> {
+                                                    Toast.makeText(Test.this, "Device added successfully", Toast.LENGTH_SHORT).show();
+                                                });
+                                    } else {
+                                        Toast.makeText(Test.this, "Access denied", Toast.LENGTH_SHORT).show();
+                                    }
                             } else {
                                 Toast.makeText(Test.this, "Device does not exists", Toast.LENGTH_SHORT).show();
                             }
@@ -392,38 +350,20 @@ public class Test extends AppCompatActivity {
                     finishAffinity();
                 }
                 break;
-            case R.id.http:
-                Intent i = new Intent(this, updateApp.class);
-                startActivity(i);
+            case R.id.about_menu1:
+                Intent intents = new Intent(this, SetupActivity.class);
+                startActivity(intents);
                 break;
-            case R.id.adminss:
-                Intent intent = new Intent(this, request.class);
-                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mdb.getReference("Administration").child("Administrators").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Administrators admins = snapshot.getValue(Administrators.class);
-                    if (admins != null && admins.role.equals("User")) {
-                        getMenuInflater().inflate(R.menu.menu2, menu);
-                    } else if (admins != null && admins.role.equals("Admin")) {
-                        getMenuInflater().inflate(R.menu.menu1, menu);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        getMenuInflater().inflate(R.menu.menu1, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     public void announcement(String title, String msg, int id) {
         SharedPreferences save = getSharedPreferences("Announcement", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = save.edit();
@@ -439,7 +379,7 @@ public class Test extends AppCompatActivity {
         }
     }
 
-    private String Decrypt (final String data, final String Decryptionkey) {
+    private String Decrypt(final String data, final String Decryptionkey) {
         String decryptedString;
         try {
             javax.crypto.spec.SecretKeySpec key = (javax.crypto.spec.SecretKeySpec) generateKey(Decryptionkey);
@@ -455,14 +395,12 @@ public class Test extends AppCompatActivity {
         return decryptedString;
     }
 
-    private javax.crypto.SecretKey generateKey(String pwd) throws Exception { final java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256"); byte[] b = pwd.getBytes("UTF-8"); digest.update(b,0,b.length); byte[] key = digest.digest(); javax.crypto.spec.SecretKeySpec sec = new javax.crypto.spec.SecretKeySpec(key, "AES"); return sec;
-    }
-    private void policy () {
-        SharedPreferences save = getSharedPreferences("policy", MODE_PRIVATE);
-        if (!save.getBoolean("accepted", false)) {
-            Intent i = new Intent(this, SetupActivity.class);
-            i.putExtra("requestCode", 1);
-            startActivity(i);
-        }
+    private javax.crypto.SecretKey generateKey(String pwd) throws Exception {
+        final java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+        byte[] b = pwd.getBytes("UTF-8");
+        digest.update(b, 0, b.length);
+        byte[] key = digest.digest();
+        javax.crypto.spec.SecretKeySpec sec = new javax.crypto.spec.SecretKeySpec(key, "AES");
+        return sec;
     }
 }

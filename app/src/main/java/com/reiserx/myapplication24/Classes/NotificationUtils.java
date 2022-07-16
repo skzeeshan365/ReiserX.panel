@@ -5,14 +5,11 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import com.reiserx.myapplication24.Activities.Others.updateApp;
 import com.reiserx.myapplication24.R;
 
 
@@ -42,15 +39,6 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(content));
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent contentIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            contentIntent = PendingIntent.getActivity(context, 0,
-                    new Intent(context, updateApp.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-        } else {
-            contentIntent = PendingIntent.getActivity(context, 0,
-                    new Intent(context, updateApp.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        notify_bulder.setContentIntent(contentIntent);
 
 
         // Gets an instance of the NotificationManager service
