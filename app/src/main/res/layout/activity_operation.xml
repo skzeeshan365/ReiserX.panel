@@ -22,9 +22,9 @@
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Timestamp: "
+            android:text="Last status: "
             android:textStyle="bold"
-            tools:text="Timestamp" />
+            tools:text="Last status" />
 
         <TextView
             android:id="@+id/timestamp"
@@ -110,7 +110,7 @@
 
     <LinearLayout
         android:id="@+id/version_holder"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
@@ -131,8 +131,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_weight="1"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/update_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="update available"
+            android:textColor="@color/purple_500"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Switch
@@ -270,7 +279,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Accessibility running:"
+            android:text="Accessibility status:"
             android:textStyle="bold" />
 
         <TextView

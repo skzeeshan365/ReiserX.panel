@@ -43,9 +43,10 @@ public class SetupActivity extends AppCompatActivity {
         adapter = new setupAdapter(this, data);
         binding.rec.setAdapter(adapter);
 
-        data.add(new operationsModel("Privacy policy", 0));
-        data.add(new operationsModel("Terms of use", 1));
-        data.add(new operationsModel("Open source license", 2));
+        data.add(new operationsModel("Documentation", 0));
+        data.add(new operationsModel("Privacy policy", 1));
+        data.add(new operationsModel("Terms of use", 2));
+        data.add(new operationsModel("Open source license", 3));
         adapter.notifyDataSetChanged();
     }
 

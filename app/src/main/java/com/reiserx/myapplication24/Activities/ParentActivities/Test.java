@@ -28,12 +28,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,10 +49,16 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.reiserx.myapplication24.Activities.LoginSystem.ProfileActivity;
 import com.reiserx.myapplication24.Activities.Others.SetupActivity;
+import com.reiserx.myapplication24.Activities.Settings.SettingsActivity;
+import com.reiserx.myapplication24.Adapters.Audios.DeviceListAdaptet;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
+import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.Users;
 import com.reiserx.myapplication24.Models.mail;
 import com.reiserx.myapplication24.R;
+import com.reiserx.myapplication24.Themes.themeApply;
 import com.reiserx.myapplication24.databinding.ActivityTestBinding;
 
 import org.json.JSONException;
@@ -80,6 +88,9 @@ public class Test extends AppCompatActivity {
 
     String TAG = "testingmethods";
 
+    ArrayList<Users> data1;
+    DeviceListAdaptet adapter;
+
     @SuppressLint("BatteryLife")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +101,6 @@ public class Test extends AppCompatActivity {
 
         mdb = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
-        setSupportActionBar(binding.toolbar);
-
-        setTitle("Devices");
-
-        binding.toolbar.setBackgroundColor(getResources().getColor(R.color.nightBlack));
-        binding.toolbar.setTitle("Devices");
 
         File file = new File(Environment.getExternalStorageDirectory() + "/ReiserX");
         if (!file.exists()) {
@@ -138,13 +142,93 @@ public class Test extends AppCompatActivity {
         if (currentUser != null) {
             userID = currentUser.getUid();
         }
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_test);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         binding.fab.setOnClickListener(view -> AlertDialog(userID));
 
         checkBothPer();
+
+        SharedPreferences save = getSharedPreferences("Admins", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = save.edit();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
+
+        data1 = new ArrayList<>();
+        binding.rec.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DeviceListAdaptet(this, data1);
+        binding.rec.setAdapter(adapter);
+
+        mdb.getReference("Administration").child("Administrators").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Administrators admins = snapshot.getValue(Administrators.class);
+                    if (admins != null && admins.role.equals("User")) {
+                        mdb.getReference("Administration").child("TargetDevices").child(userID).orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
+                            @SuppressLint("NotifyDataSetChanged")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                data1.clear();
+                                snapshot.exists();
+                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                    Users u = snapshot1.getValue(Users.class);
+                                    data1.add(u);
+                                }
+                                adapter.notifyDataSetChanged();
+                                if (data1.isEmpty()) {
+                                    binding.rec.setVisibility(View.GONE);
+                                    binding.textView24.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.textView24.setVisibility(View.GONE);
+                                    binding.rec.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        myEdit.putString("Admin", admins.role);
+                        myEdit.putBoolean("fileUploadAccess", admins.getFileUploadAccess());
+                        myEdit.apply();
+                    } else if (admins != null && admins.role.equals("Admin")) {
+                        mdb.getReference("Userdata").orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
+                            @SuppressLint("NotifyDataSetChanged")
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                data1.clear();
+                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                    Users u = snapshot1.getValue(Users.class);
+                                    data1.add(u);
+                                }
+                                adapter.notifyDataSetChanged();
+                                if (data1.isEmpty()) {
+                                    binding.rec.setVisibility(View.GONE);
+                                    binding.textView24.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.textView24.setVisibility(View.GONE);
+                                    binding.rec.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        myEdit.putString("Admin", "Admin");
+                        myEdit.putBoolean("fileUploadAccess", admins.getFileUploadAccess());
+                        myEdit.apply();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void checkBothPer() {
@@ -342,16 +426,18 @@ public class Test extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intents;
         switch (item.getItemId()) {
-            case R.id.logout:
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                if (currentUser != null) {
-                    mAuth.signOut();
-                    finishAffinity();
-                }
+            case R.id.profile_menu_item:
+                intents = new Intent(this, ProfileActivity.class);
+                startActivity(intents);
                 break;
             case R.id.about_menu1:
-                Intent intents = new Intent(this, SetupActivity.class);
+                intents = new Intent(this, SetupActivity.class);
+                startActivity(intents);
+                break;
+            case R.id.menu1_settings:
+                intents = new Intent(this, SettingsActivity.class);
                 startActivity(intents);
                 break;
         }

@@ -43,12 +43,15 @@
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_operation.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_operation_list.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_pdf_viewer.xml" value="0.25" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_python.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_recycler.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_recycler2.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_recycler_actvity.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_request.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_scan_qr.xml" value="0.1015625" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_screen_shots.xml" value="0.264" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_settings.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_setup.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_test.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/layout/activity_text_viewer.xml" value="0.25" />
@@ -101,6 +104,7 @@
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/menu1.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/menu2.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/notify_menu.xml" value="0.25" />
+        <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/python_menu.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/scrnshot_menu.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/searchs.xml" value="0.25" />
         <entry key="..\:/Users/zeeshan/AndroidStudioProjects/MyApplication24/app/src/main/res/menu/settings_menu.xml" value="0.25" />

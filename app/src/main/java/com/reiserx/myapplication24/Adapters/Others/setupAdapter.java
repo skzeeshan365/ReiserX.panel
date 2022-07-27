@@ -50,15 +50,19 @@ public class setupAdapter extends RecyclerView.Adapter<setupAdapter.SingleViewHo
                 holder.binding.getRoot().setOnClickListener(v -> {
                 });
                 holder.itemView.setOnClickListener(view -> {
-                        if (position==2) {
+                        if (position==3) {
                                 context.startActivity(new Intent(context, OssLicensesMenuActivity.class));
-                        } else if (position == 0) {
+                        } else if (position == 1) {
                                 Intent i = new Intent(Intent.ACTION_VIEW);
                                 i.setData(Uri.parse("http://reiserx.herokuapp.com/privacypolicy/"));
                                 context.startActivity(i);
-                        } else if (position == 1) {
+                        } else if (position == 2) {
                                 Intent i = new Intent(Intent.ACTION_VIEW);
                                 i.setData(Uri.parse("http://reiserx.herokuapp.com/terms%20of%20use/"));
+                                context.startActivity(i);
+                        } else if (position == 0) {
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse("http://reiserx.herokuapp.com/Documentation/"));
                                 context.startActivity(i);
                         }
                 });

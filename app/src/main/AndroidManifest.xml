@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.reiserx.myapplication24" >
+    package="com.reiserx.myapplication24">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <queries>
+        <package android:name="com.google.android.gm" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -18,7 +23,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication24" >
+        android:theme="@style/Theme.MyApplication24">
+        <activity
+            android:name=".Activities.Settings.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.LoginSystem.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Python.Python"
+            android:exported="false" />
         <activity
             android:name=".Activities.Logs.AppLogsActivity"
             android:exported="false" />
@@ -97,12 +111,10 @@
             android:exported="false" />
         <activity
             android:name=".Activities.ParentActivities.Test"
-            android:exported="false"
-            android:label="@string/title_activity_test"
-            android:theme="@style/Theme.MyApplication24.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".Activities.LoginSystem.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -136,9 +148,10 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.MyApplication24" />
+
         <service
             android:name=".Service.MyFirebaseMessagingService"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -158,15 +171,15 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
 
         <meta-data
-            android:name= "com.google.android.gms.ads.APPLICATION_ID"
-            android:value= "ca-app-pub-1588658066763563~5321957676"/>
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1588658066763563~5321957676" />
     </application>
 
 </manifest>

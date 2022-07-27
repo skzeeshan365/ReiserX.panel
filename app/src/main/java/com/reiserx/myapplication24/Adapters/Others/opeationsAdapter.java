@@ -31,6 +31,7 @@ import com.reiserx.myapplication24.Activities.Logs.AppLogsActivity;
 import com.reiserx.myapplication24.Activities.Logs.ErrorLogs;
 import com.reiserx.myapplication24.Activities.Notifications.NotificationHistoryMain;
 import com.reiserx.myapplication24.Activities.Notifications.RecyclerActivity;
+import com.reiserx.myapplication24.Activities.Python.Python;
 import com.reiserx.myapplication24.Activities.ScreenShots.ScreenShotsActivity;
 import com.reiserx.myapplication24.Activities.Usagestats.UsageStatsActivity;
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
@@ -103,7 +104,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 7 || position == 14) {
+        if (position == 7 || position == 15) {
             return ADS_CONTENT;
         } else {
             return DATA_CONTENT;
@@ -234,9 +235,15 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 context.startActivity(intent);
                 break;
             case 13:
+                interstitialAdsClass.loadAds();
+                intent = new Intent(context, Python.class);
+                intent.putExtra("UserID", UserID);
+                context.startActivity(intent);
+                break;
+            case 14:
                 deviceInfo(UserID);
                 break;
-            case 15:
+            case 16:
                 if (requiresVersion.Requires(3.8f)) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, AppLogsActivity.class);
@@ -244,7 +251,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                     context.startActivity(intent);
                 }
                 break;
-            case 16:
+            case 17:
                 interstitialAdsClass.loadAds();
                     intent = new Intent(context, ErrorLogs.class);
                     intent.putExtra("UserID", UserID);

@@ -66,6 +66,7 @@ public class deactivated extends AppCompatActivity {
         if (title.equals("BANNED!")) {
             binding.button2.setText("close");
             binding.button2.setOnClickListener(v -> finishAffinity());
+            binding.textView6.setText("reiserx.system@gmail.com");
         } else if (title.equals("ACCESS DENIED!")) {
             binding.button2.setText("logout");
             binding.button2.setOnClickListener(v -> {
@@ -84,6 +85,7 @@ public class deactivated extends AppCompatActivity {
             userss.addOnSuccessListener(unused1 -> {
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
+                    binding.textView6.setText(user.getEmail());
                     if (user.isEmailVerified()) {
                         binding.button2.setEnabled(true);
                         binding.button2.setText("next");

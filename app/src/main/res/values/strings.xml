@@ -24,5 +24,8 @@
     <string name="launch_app">Launch app</string>
     <string name="save_button">Save</string>
     <string name="policyText">You agree to our <a href="http://reiserx.herokuapp.com/privacypolicy/">privacy policy</a> and <a href="http://reiserx.herokuapp.com/terms%20of%20use/">terms of service</a></string>
+    <string name="codeview_hint">Type your code</string>
+    <string name="Code_hint">Your code should start with main function</string>
+    <string name="connect_device_fab">Click to connect a device</string>
 
 </resources>

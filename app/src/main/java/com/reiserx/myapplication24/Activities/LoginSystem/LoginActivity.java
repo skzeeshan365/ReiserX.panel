@@ -38,6 +38,7 @@ import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.deviceInfo;
 import com.reiserx.myapplication24.Models.deviceLogin;
 import com.reiserx.myapplication24.R;
+import com.reiserx.myapplication24.Themes.themeApply;
 import com.reiserx.myapplication24.Utilities.generateKey;
 import com.reiserx.myapplication24.databinding.ActivityLoginBinding;
 
@@ -69,7 +70,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
+        themeApply themeApply = new themeApply(this);
+        themeApply.applyTheme();
 
         snackbarTop = new SnackbarTop(findViewById(android.R.id.content));
 

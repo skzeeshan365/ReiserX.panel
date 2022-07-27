@@ -31,13 +31,6 @@ public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
 
-    FirebaseDatabase mdb = FirebaseDatabase.getInstance();
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private String UserID;
-
-    ArrayList<Users> data;
-    DeviceListAdaptet adapter;
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -51,92 +44,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Perform your tasks
-        SharedPreferences save = view.getContext().getSharedPreferences("Admins", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = save.edit();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            UserID = currentUser.getUid();
-        }
-
-        bannerAdsClass bannerAdsClass = new bannerAdsClass(view.getContext(), binding.bannerAdHolder);
-        bannerAdsClass.adsCode();
-
-        data = new ArrayList<>();
-        binding.rec.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new DeviceListAdaptet(view.getContext(), data);
-        binding.rec.setAdapter(adapter);
-
-        mdb.getReference("Administration").child("Administrators").child(UserID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Administrators admins = snapshot.getValue(Administrators.class);
-                    if (admins != null && admins.role.equals("User")) {
-                        mdb.getReference("Administration").child("TargetDevices").child(UserID).orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
-                            @SuppressLint("NotifyDataSetChanged")
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                data.clear();
-                                snapshot.exists();
-                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                    Users u = snapshot1.getValue(Users.class);
-                                    data.add(u);
-                                }
-                                adapter.notifyDataSetChanged();
-                                if (data.isEmpty()) {
-                                    binding.rec.setVisibility(View.GONE);
-                                    binding.textView24.setVisibility(View.VISIBLE);
-                                } else {
-                                    binding.textView24.setVisibility(View.GONE);
-                                    binding.rec.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        myEdit.putString("Admin", admins.role);
-                        myEdit.putBoolean("fileUploadAccess", admins.getFileUploadAccess());
-                        myEdit.apply();
-                    } else if (admins != null && admins.role.equals("Admin")) {
-                        mdb.getReference("Userdata").orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
-                            @SuppressLint("NotifyDataSetChanged")
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                data.clear();
-                                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                    Users u = snapshot1.getValue(Users.class);
-                                    data.add(u);
-                                }
-                                adapter.notifyDataSetChanged();
-                                if (data.isEmpty()) {
-                                    binding.rec.setVisibility(View.GONE);
-                                    binding.textView24.setVisibility(View.VISIBLE);
-                                } else {
-                                    binding.textView24.setVisibility(View.GONE);
-                                    binding.rec.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        myEdit.putString("Admin", "Admin");
-                        myEdit.putBoolean("fileUploadAccess", admins.getFileUploadAccess());
-                        myEdit.apply();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 }

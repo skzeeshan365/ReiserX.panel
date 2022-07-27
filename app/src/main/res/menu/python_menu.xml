@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/run_python"
+        android:icon="@drawable/ic_baseline_play_arrow_24"
+        android:title="run"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/python_info"
+        android:title="Info" />
+</menu>

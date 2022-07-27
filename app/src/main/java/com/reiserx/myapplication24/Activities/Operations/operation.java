@@ -7,8 +7,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -225,6 +227,7 @@ public class operation extends AppCompatActivity {
                         binding.versionText.setText("v" + value);
                         RequiresVersion requiresVersion = new RequiresVersion(operation.this, UserID);
                         requiresVersion.setCurrentVersion(Float.parseFloat(value));
+                        check_update(value);
                     }
                 } else binding.versionText.setText("Not available");
 
@@ -278,26 +281,6 @@ public class operation extends AppCompatActivity {
         });
     }
 
-    public void getTokens (String UserID) {
-
-        SharedPreferences save = getSharedPreferences("Tokens", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = save.edit();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference docRef = db.collection("Main").document(UserID).collection("TokenUrl");
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                    myEdit.putString("tokens", String.valueOf(document.getData().get("Notification token")));
-                    myEdit.apply();
-                }
-            } else {
-                Log.d("fbbfbfwfbbff", "Error getting documents: ", task.getException());
-                Toast.makeText(operation.this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void acc_service_update (String UserID) {
         DatabaseReference acc = FirebaseDatabase.getInstance().getReference().child("Main").child(UserID).child("ServiceStatus").child("AccessibilityUpdate");
         acc.addValueEventListener(new ValueEventListener() {
@@ -326,6 +309,7 @@ public class operation extends AppCompatActivity {
         switch (nightModeFlags) {
             case Configuration.UI_MODE_NIGHT_YES:
                 view.setColorFilter(getColor(R.color.white));
+                binding.updateText.setTextColor(getColor(R.color.teal_200));
                 break;
 
             case Configuration.UI_MODE_NIGHT_NO:
@@ -353,6 +337,31 @@ public class operation extends AppCompatActivity {
             } else {
                 Log.d("fbbfbfwfbbff", "Error getting documents: ", task.getException());
                 Toast.makeText(this, String.valueOf(task.getException()), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void check_update (String version) {
+        FirebaseDatabase.getInstance().getReference().child("Administration").child("App").child("Target").child("Updates").child("version").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String value = snapshot.getValue(String.class);
+                    Log.d("hubhbib", value);
+                    Log.d("hubhbib", version);
+                    if (value != null) {
+                        if (Float.parseFloat(value) > Float.parseFloat(version)) {
+                            binding.updateText.setVisibility(View.VISIBLE);
+                            binding.updateText.setText("update available v".concat(value));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
