@@ -3,6 +3,7 @@ package com.reiserx.myapplication24.Advertisements;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -30,20 +31,20 @@ public class NativeAdsClass {
         } else {
             ADID = "ca-app-pub-1588658066763563/3393249593";
         }
+        template.setVisibility(View.GONE);
     }
 
     public void loadAd () {
         MobileAds.initialize(context);
         AdLoader adLoader = new AdLoader.Builder(context, ADID)
                 .forNativeAd(nativeAd -> {
-                    NativeTemplateStyle styles = new
-                            NativeTemplateStyle.Builder().withMainBackgroundColor(colorDrawable).build();
+                    NativeTemplateStyle styles = new NativeTemplateStyle.Builder().withMainBackgroundColor(colorDrawable).build();
                     template.setStyles(styles);
                     template.setNativeAd(nativeAd);
                 })
                 .build();
-
         adLoader.loadAd(new AdManagerAdRequest.Builder().build());
+        template.setVisibility(View.VISIBLE);
     }
 
     public void setDesign (ConstraintLayout constraintLayout) {
@@ -53,12 +54,15 @@ public class NativeAdsClass {
         switch (nightModeFlags) {
             case Configuration.UI_MODE_NIGHT_YES:
                 colorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.dark));
+                template.setBackgroundColor(context.getColor(R.color.dark));
                 break;
 
             case Configuration.UI_MODE_NIGHT_NO:
                 colorDrawable = (ColorDrawable) constraintLayout.getBackground();
+                template.setBackgroundColor(context.getColor(R.color.dark));
             case Configuration.UI_MODE_NIGHT_UNDEFINED:
                 colorDrawable = (ColorDrawable) constraintLayout.getBackground();
+                template.setBackgroundColor(context.getColor(R.color.dark));
                 break;
         }
     }

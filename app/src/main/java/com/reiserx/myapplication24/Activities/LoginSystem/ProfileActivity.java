@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityProfileBinding;
 
@@ -37,6 +38,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         prog = new ProgressDialog(this);
         prog.setMessage("Processing...");
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         mAuth =  FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
@@ -32,6 +33,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         themeApply = new themeApply(this);
         themeApply.applyTheme();
+
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
 
         save = getSharedPreferences("Settings", MODE_PRIVATE);
 

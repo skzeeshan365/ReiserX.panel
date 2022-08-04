@@ -235,10 +235,12 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 context.startActivity(intent);
                 break;
             case 13:
-                interstitialAdsClass.loadAds();
-                intent = new Intent(context, Python.class);
-                intent.putExtra("UserID", UserID);
-                context.startActivity(intent);
+                if (requiresVersion.Requires(4.2f)) {
+                    interstitialAdsClass.loadAds();
+                    intent = new Intent(context, Python.class);
+                    intent.putExtra("UserID", UserID);
+                    context.startActivity(intent);
+                }
                 break;
             case 14:
                 deviceInfo(UserID);

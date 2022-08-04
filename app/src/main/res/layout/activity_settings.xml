@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Activities.Settings.SettingsActivity">
 
+    <LinearLayout
+        android:id="@+id/banner_ad_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/theme_lt"
         android:layout_width="0dp"

@@ -303,24 +303,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/banner_ad_holder"
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/my_template"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="horizontal"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
+        app:gnt_template_type="@layout/gnt_medium_template_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4">
-
-        <com.google.android.ads.nativetemplates.TemplateView
-            android:id="@+id/my_template"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:gnt_template_type="@layout/gnt_small_template_view" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
