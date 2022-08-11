@@ -163,6 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Administration").child("Account").child("DeleteRequest").child(currentUser.getUid()).setValue(currentUser.getUid());
                     FirebaseDatabase.getInstance().getReference("Administration").child("UserData").child(currentUser.getEmail().replaceAll("\\.", "")).removeValue();
                     currentUser.delete().addOnSuccessListener(unused -> {
+                        mAuth.getCurrentUser().getIdToken(true);
                         mAuth.signOut();
                         prog.dismiss();
                         Toast.makeText(ProfileActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();

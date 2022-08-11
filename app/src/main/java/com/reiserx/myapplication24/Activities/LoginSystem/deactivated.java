@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.FirebaseDatabase;
 import com.reiserx.myapplication24.Activities.ParentActivities.Test;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
@@ -83,10 +87,17 @@ public class deactivated extends AppCompatActivity {
 
             Task<Void> userss = FirebaseAuth.getInstance().getCurrentUser().reload();
             userss.addOnSuccessListener(unused1 -> {
+
                 user = FirebaseAuth.getInstance().getCurrentUser();
+
                 if (user != null) {
                     binding.textView6.setText(user.getEmail());
                     if (user.isEmailVerified()) {
+                        user.getIdToken(true).addOnSuccessListener(getTokenResult -> {
+                            Log.d(TAG, String.valueOf(getTokenResult));
+                        }).addOnFailureListener(e -> {
+                            Log.d(TAG, String.valueOf(e.toString()));
+                        });
                         binding.button2.setEnabled(true);
                         binding.button2.setText("next");
                         binding.mesg.setText("Your email has been verified");
@@ -100,7 +111,7 @@ public class deactivated extends AppCompatActivity {
                                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                                 startActivity(i);
                                 finish();
-                            });
+                            }).addOnFailureListener(e -> Log.d(TAG, e.toString()));
                         });
                     } else {
                         binding.button2.setText("VERIFY");

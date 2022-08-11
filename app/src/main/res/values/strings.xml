@@ -27,5 +27,6 @@
     <string name="codeview_hint">Type your code</string>
     <string name="Code_hint">Your code should start with main function</string>
     <string name="connect_device_fab">Click to connect a device</string>
+    <string name="documentation_operations">For documentation please visit <a href="http://reiserx.herokuapp.com/privacypolicy/">documentation</a></string>
 
 </resources>

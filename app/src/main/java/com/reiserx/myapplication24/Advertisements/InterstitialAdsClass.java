@@ -25,35 +25,33 @@ public class InterstitialAdsClass {
 
     public InterstitialAdsClass(Context context) {
         this.context = context;
-        if (BuildConfig.DEBUG) {
-            ADID = "/6499/example/interstitial";
-        } else {
-            ADID = "ca-app-pub-1588658066763563/3270509402";
-        }
+        ADID = "ca-app-pub-1588658066763563/3270509402";
     }
 
     public void loadAds () {
-        if (getRandom(0, 1)==1) {
-            AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
+        if (!BuildConfig.DEBUG) {
+            if (getRandom(0, 2) == 1) {
+                AdManagerAdRequest adRequest = new AdManagerAdRequest.Builder().build();
 
-            AdManagerInterstitialAd.load(context, ADID, adRequest,
-                    new AdManagerInterstitialAdLoadCallback() {
-                        @Override
-                        public void onAdLoaded(@NonNull AdManagerInterstitialAd interstitialAd) {
-                            // The mAdManagerInterstitialAd reference will be null until
-                            // an ad is loaded.
-                            mAdManagerInterstitialAd = interstitialAd;
-                            Log.i(TAG, "onAdLoaded");
-                            shows();
-                        }
+                AdManagerInterstitialAd.load(context, ADID, adRequest,
+                        new AdManagerInterstitialAdLoadCallback() {
+                            @Override
+                            public void onAdLoaded(@NonNull AdManagerInterstitialAd interstitialAd) {
+                                // The mAdManagerInterstitialAd reference will be null until
+                                // an ad is loaded.
+                                mAdManagerInterstitialAd = interstitialAd;
+                                Log.i(TAG, "onAdLoaded");
+                                shows();
+                            }
 
-                        @Override
-                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                            // Handle the error
-                            Log.d(TAG, loadAdError.toString());
-                            mAdManagerInterstitialAd = null;
-                        }
-                    });
+                            @Override
+                            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                // Handle the error
+                                Log.d(TAG, loadAdError.toString());
+                                mAdManagerInterstitialAd = null;
+                            }
+                        });
+            }
         }
     }
 

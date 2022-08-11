@@ -22,7 +22,7 @@ public class NotificationUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             @SuppressLint("WrongConstant")
-            NotificationChannel notificationChannel = new NotificationChannel(channel_id, "Cloud messaging", NotificationManager.IMPORTANCE_MAX);
+            NotificationChannel notificationChannel = new NotificationChannel(channel_id, "General notifications", NotificationManager.IMPORTANCE_MAX);
             notificationChannel.setDescription("service");
             notificationChannel.setVibrationPattern(new long[]{0, 1000, 5000, 1000});
             notificationChannel.enableVibration(true);

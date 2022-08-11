@@ -5,10 +5,9 @@ import static android.content.ContentValues.TAG;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
 import com.reiserx.myapplication24.Advertisements.NativeAdsClass;
+import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.BackwardCompatibility.RequiresVersion;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
 import com.reiserx.myapplication24.Classes.postRequest;
@@ -64,8 +64,10 @@ public class operation extends AppCompatActivity {
         setDesign(binding.accessibilityRefresh);
         setDesign(binding.accUpdateBtn);
 
-        NativeAdsClass nativeAdsClass = new NativeAdsClass(this, binding.myTemplate, binding.mainLayout);
-        nativeAdsClass.loadAd();
+        bannerAdsClass bannerAdsClass = new bannerAdsClass(this, binding.bannerAdHolder);
+        bannerAdsClass.adsCode();
+
+        binding.infoTxt.setMovementMethod(LinkMovementMethod.getInstance());
 
         userStatus(UserID);
 
@@ -104,6 +106,7 @@ public class operation extends AppCompatActivity {
                     boolean value = snapshot.getValue(Boolean.class);
                     if (value) {
                         binding.accessibilityServiceInfo.setText("enabled");
+                        binding.checkBox4.setEnabled(true);
                     } else binding.accessibilityServiceInfo.setText("not enabled");
                 }
             }
@@ -168,6 +171,41 @@ public class operation extends AppCompatActivity {
         getVersion(UserID);
 
         acc_service_update(UserID);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Main").child(UserID).child("ServiceStatus").child("canUninstall");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    boolean value = snapshot.getValue(Boolean.class);
+                    if (value) {
+                        if (binding.accessibilityServiceInfo.getText().toString().equals("enabled")) {
+                            binding.checkBox4.setChecked(true);
+                        } else {
+                            binding.checkBox4.setChecked(false);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        binding.checkBox4.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (binding.checkBox4.isChecked()) {
+                if (binding.accessibilityServiceInfo.getText().toString().equals("enabled")) {
+                    reference.setValue(true);
+                } else {
+                    binding.checkBox4.setChecked(false);
+                }
+            } else {
+                reference.setValue(false);
+            }
+        });
     }
 
     private void userStatus(String userid) {
@@ -239,7 +277,8 @@ public class operation extends AppCompatActivity {
             }
         });
     }
-    public void ScrnLock (String UserID) {
+
+    public void ScrnLock(String UserID) {
         DatabaseReference scrnLock = FirebaseDatabase.getInstance().getReference("Main").child(UserID).child("ServiceStatus").child("screenLock");
         scrnLock.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -260,7 +299,7 @@ public class operation extends AppCompatActivity {
         });
     }
 
-    public void getRunningTask (String UserID) {
+    public void getRunningTask(String UserID) {
         DatabaseReference scrnLock = FirebaseDatabase.getInstance().getReference("Main").child(UserID).child("ServiceStatus").child("Current task");
         scrnLock.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -268,7 +307,7 @@ public class operation extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String value = snapshot.getValue(String.class);
-                    if (value!= null && !value.equals("null")) {
+                    if (value != null && !value.equals("null")) {
                         binding.runningTaskText.setText(value);
                     } else binding.runningTaskText.setText("Not available");
                 } else binding.runningTaskText.setText("Not available");
@@ -281,7 +320,7 @@ public class operation extends AppCompatActivity {
         });
     }
 
-    public void acc_service_update (String UserID) {
+    public void acc_service_update(String UserID) {
         DatabaseReference acc = FirebaseDatabase.getInstance().getReference().child("Main").child(UserID).child("ServiceStatus").child("AccessibilityUpdate");
         acc.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -289,7 +328,7 @@ public class operation extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String value = snapshot.getValue(String.class);
-                    if (value!= null) {
+                    if (value != null) {
                         binding.accServiceUpdate.setText(value);
                     } else binding.accServiceUpdate.setText("Not available");
                 } else binding.accServiceUpdate.setText("Not available");
@@ -302,7 +341,7 @@ public class operation extends AppCompatActivity {
         });
     }
 
-    public void setDesign (ImageView view) {
+    public void setDesign(ImageView view) {
         int nightModeFlags =
                 getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
@@ -341,15 +380,13 @@ public class operation extends AppCompatActivity {
         });
     }
 
-    public void check_update (String version) {
+    public void check_update(String version) {
         FirebaseDatabase.getInstance().getReference().child("Administration").child("App").child("Target").child("Updates").child("version").addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String value = snapshot.getValue(String.class);
-                    Log.d("hubhbib", value);
-                    Log.d("hubhbib", version);
                     if (value != null) {
                         if (Float.parseFloat(value) > Float.parseFloat(version)) {
                             binding.updateText.setVisibility(View.VISIBLE);
