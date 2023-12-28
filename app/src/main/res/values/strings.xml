@@ -23,10 +23,11 @@
     <string name="targetApp">ReiserX driver</string>
     <string name="launch_app">Launch app</string>
     <string name="save_button">Save</string>
-    <string name="policyText">You agree to our <a href="http://reiserx.herokuapp.com/privacypolicy/">privacy policy</a> and <a href="http://reiserx.herokuapp.com/terms%20of%20use/">terms of service</a></string>
+    <string name="policyText">You agree to our <a href="https://reiserx.com/reiserx-remote/reiserx-privacy-policy/">privacy policy</a> and <a href="https://reiserx.com/reiserx-remote/terms%20of%20use/">terms of service</a></string>
     <string name="codeview_hint">Type your code</string>
     <string name="Code_hint">Your code should start with main function</string>
     <string name="connect_device_fab">Click to connect a device</string>
-    <string name="documentation_operations">For documentation please visit <a href="http://reiserx.herokuapp.com/privacypolicy/">documentation</a></string>
+    <string name="documentation_operations">For documentation please <a href="https://reiserx.com/reiserx-remote/Documentation/">click here</a></string>
+    <string name="denied_text">Access is currently reserved for our valued members. To get access, please visit our <a href="https://reiserx.com/reiserx-remote/">website</a></string>
 
 </resources>

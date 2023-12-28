@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent i = new Intent(LoginActivity.this, deactivated.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i.putExtra("title", "BANNED!");
-                    i.putExtra("message", "You have been banned from using this service, please contact the developer if you think its a mistake.");
+                    i.putExtra("message", "You have been banned from using this service, please contact us if you think its a mistake.");
                     startActivity(i);
                     Log.d(TAG, "exist");
                 } else {
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (snapshot.exists()) {
                                     Intent i = new Intent(LoginActivity.this, deactivated.class);
                                     i.putExtra("title", "BANNED!");
-                                    i.putExtra("message", "You have been banned from using this service, please contact the developer if you think its a mistake.");
+                                    i.putExtra("message", "You have been banned from using this service, please contact us if you think its a mistake.");
                                     startActivity(i);
                                 } else {
                                     FirebaseUser user = mAuth.getCurrentUser();
@@ -165,8 +165,6 @@ public class LoginActivity extends AppCompatActivity {
                         binding.textView22.setVisibility(View.GONE);
                         binding.progressBar3.setVisibility(View.GONE);
 
-                        Log.d(TAG, "home");
-                        Log.d(TAG, "checked");
                         binding.button.setOnClickListener(v -> {
                             String email = binding.editTextTextEmailAddress.getText().toString();
                             String password = binding.editTextTextPassword.getText().toString();
@@ -381,13 +379,13 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Intent i = new Intent(LoginActivity.this, deactivated.class);
                         i.putExtra("title", "ACCESS DENIED!");
-                        i.putExtra("message", "You don't have access to this service, contact the developer");
+                        i.putExtra("message", getString(R.string.denied_text));
                         startActivity(i);
                     }
                 } else {
                     Intent i = new Intent(LoginActivity.this, deactivated.class);
                     i.putExtra("title", "ACCESS DENIED!");
-                    i.putExtra("message", "You don't have access to this service, contact the developer");
+                    i.putExtra("message", getString(R.string.denied_text));
                     startActivity(i);
                 }
             }

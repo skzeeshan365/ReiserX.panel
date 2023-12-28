@@ -7,6 +7,7 @@ import static android.os.Build.VERSION.SDK_INT;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +38,16 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.androidadvance.topsnackbar.TSnackbar;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -91,6 +102,9 @@ public class Test extends AppCompatActivity {
     ArrayList<Users> data1;
     DeviceListAdaptet adapter;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener;
+
     @SuppressLint("BatteryLife")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +115,11 @@ public class Test extends AppCompatActivity {
 
         mdb = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        appUpdateManager = AppUpdateManagerFactory.create(getApplicationContext());
+        setInstallStateUpdatedListener();
+
+        checkUpdate();
 
         File file = new File(Environment.getExternalStorageDirectory() + "/ReiserX");
         if (!file.exists()) {
@@ -265,6 +284,16 @@ public class Test extends AppCompatActivity {
                     }
                     break;
                 }
+            case 3650:
+                    if (resultCode == RESULT_CANCELED) {
+                        Toast.makeText(getApplicationContext(), "Update canceled by user! Result Code: " + resultCode, Toast.LENGTH_LONG).show();
+                    } else if (resultCode == RESULT_OK) {
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Update Failed! Result Code: " + resultCode, Toast.LENGTH_LONG).show();
+                        checkUpdate();
+                    }
+                    break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -488,5 +517,60 @@ public class Test extends AppCompatActivity {
         byte[] key = digest.digest();
         javax.crypto.spec.SecretKeySpec sec = new javax.crypto.spec.SecretKeySpec(key, "AES");
         return sec;
+    }
+
+    private void checkUpdate() {
+
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                startUpdateFlow(appUpdateInfo);
+            } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackBarForCompleteUpdate();
+            }
+        });
+    }
+
+    private void startUpdateFlow(AppUpdateInfo appUpdateInfo) {
+        setInstallStateUpdatedListener();
+        try {
+            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE, this, 3650);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeInstallStateUpdateListener() {
+        if (appUpdateManager != null) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+        }
+    }
+
+    private void popupSnackBarForCompleteUpdate() {
+        TSnackbar.make(findViewById(android.R.id.content), "New update is ready, please install it now", TSnackbar.LENGTH_INDEFINITE)
+                .setAction("Install", view -> {
+                    if (appUpdateManager != null) {
+                        appUpdateManager.completeUpdate();
+                    }
+                })
+                .show();
+    }
+
+    public void setInstallStateUpdatedListener () {
+        installStateUpdatedListener = state -> {
+            if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackBarForCompleteUpdate();
+            } else {
+                Toast.makeText(getApplicationContext(), "InstallStateUpdatedListener: state: " + state.installStatus(), Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeInstallStateUpdateListener();
     }
 }

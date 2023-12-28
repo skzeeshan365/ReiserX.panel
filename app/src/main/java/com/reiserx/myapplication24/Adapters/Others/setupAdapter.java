@@ -54,15 +54,15 @@ public class setupAdapter extends RecyclerView.Adapter<setupAdapter.SingleViewHo
                                 context.startActivity(new Intent(context, OssLicensesMenuActivity.class));
                         } else if (position == 1) {
                                 Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse("http://reiserx.herokuapp.com/privacypolicy/"));
+                                i.setData(Uri.parse("https://reiserx.com/reiserx-remote/reiserx-privacy-policy/"));
                                 context.startActivity(i);
                         } else if (position == 2) {
                                 Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse("http://reiserx.herokuapp.com/terms%20of%20use/"));
+                                i.setData(Uri.parse("https://reiserx.com/reiserx-remote/terms%20of%20use/"));
                                 context.startActivity(i);
                         } else if (position == 0) {
                                 Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse("http://reiserx.herokuapp.com/Documentation/"));
+                                i.setData(Uri.parse("https://reiserx.com/reiserx-remote/Documentation/"));
                                 context.startActivity(i);
                         }
                 });

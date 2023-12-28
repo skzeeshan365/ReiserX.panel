@@ -3,14 +3,18 @@ package com.reiserx.myapplication24.Advertisements;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.ads.nativetemplates.NativeTemplateStyle;
 import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import com.reiserx.myapplication24.BuildConfig;
@@ -41,10 +45,38 @@ public class NativeAdsClass {
                     NativeTemplateStyle styles = new NativeTemplateStyle.Builder().withMainBackgroundColor(colorDrawable).build();
                     template.setStyles(styles);
                     template.setNativeAd(nativeAd);
+                }).withAdListener(new AdListener() {
+                    @Override
+                    public void onAdClicked() {
+                        super.onAdClicked();
+                    }
+
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        super.onAdFailedToLoad(loadAdError);
+                        template.setVisibility(View.GONE);
+                        Log.d("NativeAdsClass", loadAdError.toString());
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        template.setVisibility(View.VISIBLE);
+                        Log.d("NativeAdsClass", "loaded");
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                    }
                 })
                 .build();
         adLoader.loadAd(new AdManagerAdRequest.Builder().build());
-        template.setVisibility(View.VISIBLE);
     }
 
     public void setDesign (ConstraintLayout constraintLayout) {
