@@ -184,7 +184,7 @@ public class UsageStatsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.app_list_refresh:
                 RequiresVersion requiresVersion = new RequiresVersion(this, UserID);
-                if (requiresVersion.Requires(2.7f)) {
+                if (requiresVersion.Requires("2.7")) {
                     SharedPreferences.Editor myEdit = save.edit();
                     Date date = new Date();
                     date.getTime();

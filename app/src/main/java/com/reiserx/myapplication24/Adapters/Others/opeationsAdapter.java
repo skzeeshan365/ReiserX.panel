@@ -1,10 +1,12 @@
 package com.reiserx.myapplication24.Adapters.Others;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.reiserx.myapplication24.Activities.Applist.BlockedApps;
 import com.reiserx.myapplication24.Activities.Audios.GetAudiosActivity;
 import com.reiserx.myapplication24.Activities.Calls.callogs;
 import com.reiserx.myapplication24.Activities.Calls.contacts;
@@ -116,7 +119,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
         InterstitialAdsClass interstitialAdsClass = new InterstitialAdsClass(context);
         switch (position) {
             case 0:
-                if (requiresVersion.Requires(2.8f)) {
+                if (requiresVersion.Requires("2.8")) {
                     performTask = new performTask("Directorys", 1, UserID);
                     performTask.Task();
                     intent = new Intent(context, DirectorysActivity.class);
@@ -144,7 +147,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 break;
             case 4:
                 interstitialAdsClass.loadAds();
-                if (requiresVersion.Requires(2.7f)) {
+                if (requiresVersion.Requires("2.7")) {
                     intent = new Intent(context, NotificationHistoryMain.class);
                     intent.putExtra("UserID", UserID);
                     intent.putExtra("Path", "Main/" + UserID + "/Notification history/AppName");
@@ -153,7 +156,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 }
                 break;
             case 5:
-                if (requiresVersion.Requires(3.8f)) {
+                if (requiresVersion.Requires("3.8")) {
                     ProgressDialog prog = new ProgressDialog(context);
                     prog.setMessage("Processing...");
                     prog.setCancelable(false);
@@ -200,7 +203,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 }
                 break;
             case 6:
-                if (requiresVersion.Requires(3.8f)) {
+                if (requiresVersion.Requires("3.8")) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, GetAudiosActivity.class);
                     intent.putExtra("UserID", UserID);
@@ -208,7 +211,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 }
                 break;
             case 8:
-                if (requiresVersion.Requires(3.8f)) {
+                if (requiresVersion.Requires("3.8")) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, CameraActivity.class);
                     intent.putExtra("UserID", UserID);
@@ -229,31 +232,41 @@ public class opeationsAdapter extends RecyclerView.Adapter {
                 context.startActivity(intent);
                 break;
             case 12:
+                if (requiresVersion.Requires("4.5.0")) {
+                    SharedPreferences save = context.getSharedPreferences("blocked", MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = save.edit();
+                    myEdit.putString("UserID", UserID);
+                    myEdit.apply();
+                    intent = new Intent(context, BlockedApps.class);
+                    context.startActivity(intent);
+                }
+                break;
+            case 13:
                 interstitialAdsClass.loadAds();
                 intent = new Intent(context, UsageStatsActivity.class);
                 intent.putExtra("UserID", UserID);
                 context.startActivity(intent);
                 break;
-            case 13:
-                if (requiresVersion.Requires(4.2f)) {
+            case 14:
+                if (requiresVersion.Requires("4.2")) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, Python.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
                 }
                 break;
-            case 14:
+            case 16:
                 deviceInfo(UserID);
                 break;
-            case 16:
-                if (requiresVersion.Requires(3.8f)) {
+            case 17:
+                if (requiresVersion.Requires("3.8")) {
                     interstitialAdsClass.loadAds();
                     intent = new Intent(context, AppLogsActivity.class);
                     intent.putExtra("UserID", UserID);
                     context.startActivity(intent);
                 }
                 break;
-            case 17:
+            case 18:
                 interstitialAdsClass.loadAds();
                     intent = new Intent(context, ErrorLogs.class);
                     intent.putExtra("UserID", UserID);
@@ -300,7 +313,7 @@ public class opeationsAdapter extends RecyclerView.Adapter {
         final Button callLogs = mView.findViewById(R.id.call_logs);
         final Button cancel = mView.findViewById(R.id.cancel_btn);
 
-        alert.setMessage("This method is used to clear file cache from server that stores which files are loaded or not, CLEAR_PREFERENCE only when you encounter a issue in Directory section, but the best practice is to submit a bug report on http://reiser.com");
+        alert.setMessage("This method is used to clear file cache from server that stores which files are loaded or not, CLEAR_PREFERENCE only when you encounter a issue in Directory section, but the best practice is to submit a bug report on http://reiserx.com");
 
         directorys.setOnClickListener(v1 -> {
             performTask = new performTask("Folders", 5, UserID);

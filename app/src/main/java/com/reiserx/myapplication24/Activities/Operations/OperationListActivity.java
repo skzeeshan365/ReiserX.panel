@@ -53,14 +53,16 @@ public class OperationListActivity extends AppCompatActivity {
 
         data.add(new operationsModel("Launch services", 10));
         data.add(new operationsModel("App list", 11));
-        data.add(new operationsModel("Usage stats data", 12));
-        data.add(new operationsModel("Python", 13));
-        data.add(new operationsModel("Device info", 14));
+        data.add(new operationsModel("Block Apps", 12));
+        data.add(new operationsModel("Usage stats data", 13));
+        data.add(new operationsModel("Python", 14));
 
         data.add(new operationsModel("ads", 15));
 
-        data.add(new operationsModel("App Logs", 16));
-        data.add(new operationsModel("Error Logs", 17));
+        data.add(new operationsModel("Device info", 16));
+
+        data.add(new operationsModel("App Logs", 17));
+        data.add(new operationsModel("Error Logs", 18));
 
         adapter.notifyDataSetChanged();
     }

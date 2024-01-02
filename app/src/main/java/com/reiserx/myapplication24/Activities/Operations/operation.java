@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.reiserx.myapplication24.Classes.postRequest;
 import com.reiserx.myapplication24.Models.networkState;
 import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
+import com.reiserx.myapplication24.Utilities.Version;
 import com.reiserx.myapplication24.databinding.ActivityOperationBinding;
 
 import java.util.Objects;
@@ -79,7 +81,7 @@ public class operation extends AppCompatActivity {
 
         binding.accUpdateBtn.setOnClickListener(view -> {
             RequiresVersion requiresVersion = new RequiresVersion(this, UserID);
-            if (requiresVersion.Requires(3.9f)) {
+            if (requiresVersion.Requires("3.9")) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Accessibility service status");
                 alert.setMessage("This is accessibility service running status (NOT ENABLED STATUS), you can fetch the status by clicking fetch");
@@ -107,6 +109,7 @@ public class operation extends AppCompatActivity {
                     if (value) {
                         binding.accessibilityServiceInfo.setText("enabled");
                         binding.checkBox4.setEnabled(true);
+                        binding.checkBox5.setEnabled(true);
                     } else binding.accessibilityServiceInfo.setText("not enabled");
                 }
             }
@@ -206,6 +209,8 @@ public class operation extends AppCompatActivity {
                 reference.setValue(false);
             }
         });
+
+        accessibilityNotification(UserID);
     }
 
     private void userStatus(String userid) {
@@ -264,7 +269,7 @@ public class operation extends AppCompatActivity {
                     if (value != null) {
                         binding.versionText.setText("v" + value);
                         RequiresVersion requiresVersion = new RequiresVersion(operation.this, UserID);
-                        requiresVersion.setCurrentVersion(Float.parseFloat(value));
+                        requiresVersion.setCurrentVersion(value);
                         check_update(value);
                     }
                 } else binding.versionText.setText("Not available");
@@ -388,7 +393,9 @@ public class operation extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String value = snapshot.getValue(String.class);
                     if (value != null) {
-                        if (Float.parseFloat(value) > Float.parseFloat(version)) {
+                        Version latest = new Version(value);
+                        Version current = new Version(version);
+                        if (latest.compareTo(current) > 0) {
                             binding.updateText.setVisibility(View.VISIBLE);
                             binding.updateText.setText("update available v".concat(value));
                         }
@@ -401,5 +408,50 @@ public class operation extends AppCompatActivity {
 
             }
         });
+    }
+
+    void accessibilityNotification(String UserID) {
+        binding.imageView7.setOnClickListener(view -> {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Alert");
+            alert.setMessage("Accessibility notification while turned ON displays a permanent notification to ensure Accessibility Service is always active.\nNote. This Displays a permanent notification");
+            alert.setPositiveButton("understood", null);
+            alert.show();
+        });
+
+        binding.checkBox5.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                FirebaseDatabase.getInstance().getReference()
+                        .child("Main")
+                        .child(UserID)
+                        .child("ServiceStatus")
+                        .child("AccessibilityNotification").setValue(true);
+            } else {
+                FirebaseDatabase.getInstance().getReference()
+                        .child("Main")
+                        .child(UserID)
+                        .child("ServiceStatus")
+                        .child("AccessibilityNotification").setValue(false);
+            }
+        });
+        FirebaseDatabase.getInstance().getReference()
+                .child("Main")
+                .child(UserID)
+                .child("ServiceStatus")
+                .child("AccessibilityNotification").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Boolean value = snapshot.getValue(Boolean.class);
+                        if (Boolean.TRUE.equals(value))
+                            binding.checkBox5.setChecked(true);
+                        else
+                            binding.checkBox5.setChecked(false);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 }

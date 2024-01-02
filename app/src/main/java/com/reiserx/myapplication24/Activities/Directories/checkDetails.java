@@ -122,7 +122,7 @@ public class checkDetails extends AppCompatActivity {
 
         binding.downloadData.setOnClickListener(v -> {
             RequiresVersion requiresVersion = new RequiresVersion(checkDetails.this, UserID);
-            if (requiresVersion.Requires(3.0f)) {
+            if (requiresVersion.Requires("3.0")) {
                 dialog.setTitle("File operation ");
                 dialog.setMessage("Download or check files");
                 dialog.setPositiveButton("DOWNLOAD", (dialog13, which) -> {

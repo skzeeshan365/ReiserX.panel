@@ -24,6 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication24">
         <activity
+            android:name=".Activities.Applist.BlockedApps"
+            android:exported="false"
+            android:label="@string/title_activity_blocked_apps"
+            android:theme="@style/Theme.MyApplication24.NoActionBar" />
+        <activity
             android:name=".Activities.Settings.SettingsActivity"
             android:exported="false" />
         <activity

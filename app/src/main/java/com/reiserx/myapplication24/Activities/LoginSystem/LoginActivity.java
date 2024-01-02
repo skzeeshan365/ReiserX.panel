@@ -104,8 +104,10 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mdb = FirebaseDatabase.getInstance();
 
-        if (Objects.requireNonNull(getSupportActionBar()).isShowing()) {
-            getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            if (getSupportActionBar().isShowing()) {
+                getSupportActionBar().hide();
+            }
         }
 
         prog = new ProgressDialog(this);

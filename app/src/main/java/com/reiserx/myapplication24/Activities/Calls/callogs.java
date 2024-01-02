@@ -80,7 +80,7 @@ public class callogs extends AppCompatActivity {
 
         setTitle("Call logs");
 
-        if (requiresVersion.Requires(2.6f)) {
+        if (requiresVersion.Requires("2.6")) {
             data = new ArrayList<>();
             dataList = new ArrayList<>();
             filteredDataList = new ArrayList<>();
