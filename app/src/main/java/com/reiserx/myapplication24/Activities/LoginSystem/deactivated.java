@@ -15,16 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.database.FirebaseDatabase;
-import com.reiserx.myapplication24.Activities.ParentActivities.Test;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
-import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.ActivityDeactivatedBinding;
 

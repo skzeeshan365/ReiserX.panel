@@ -2,22 +2,14 @@ package com.reiserx.myapplication24.Activities.Applist;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.reiserx.myapplication24.databinding.ActivityBlockedAppsBinding;
-
 import com.reiserx.myapplication24.R;
+import com.reiserx.myapplication24.databinding.ActivityBlockedAppsBinding;
 
 public class BlockedApps extends AppCompatActivity {
 

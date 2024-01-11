@@ -1,18 +1,16 @@
 package com.reiserx.myapplication24.Activities.Settings;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.reiserx.myapplication24.Advertisements.InterstitialAdsClass;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.reiserx.myapplication24.Advertisements.bannerAdsClass;
 import com.reiserx.myapplication24.Classes.SnackbarTop;
-import com.reiserx.myapplication24.Models.performTask;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.Themes.themeApply;
 import com.reiserx.myapplication24.databinding.ActivitySettingsBinding;

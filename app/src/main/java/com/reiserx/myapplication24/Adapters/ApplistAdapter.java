@@ -2,7 +2,6 @@ package com.reiserx.myapplication24.Adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.reiserx.myapplication24.Adapters.Contacts.contactAdapter;
-import com.reiserx.myapplication24.Classes.copyToClipboard;
 import com.reiserx.myapplication24.Models.AppListInfo;
-import com.reiserx.myapplication24.Models.contacts_lists;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.AppListCustomBinding;
-import com.reiserx.myapplication24.databinding.ContactListBinding;
 
 import java.util.ArrayList;
 import java.util.List;

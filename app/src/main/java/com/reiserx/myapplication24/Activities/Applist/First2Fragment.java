@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,9 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.reiserx.myapplication24.Adapters.ApplistAdapter;
-import com.reiserx.myapplication24.Adapters.Directories.FoldersAdapter;
 import com.reiserx.myapplication24.Models.AppListInfo;
-import com.reiserx.myapplication24.Models.Folders;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.FragmentFirst2Binding;
 

@@ -2,11 +2,8 @@ package com.reiserx.myapplication24.Activities.Applist;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import static com.google.android.material.color.utilities.MaterialDynamicColors.error;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,16 +19,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.reiserx.myapplication24.Adapters.ApplistAdapter;
 import com.reiserx.myapplication24.Models.AppListInfo;
-import com.reiserx.myapplication24.Models.contacts_lists;
 import com.reiserx.myapplication24.R;
 import com.reiserx.myapplication24.databinding.FragmentSecondBinding;
 

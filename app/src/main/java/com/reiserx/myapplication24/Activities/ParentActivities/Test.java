@@ -29,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -40,7 +39,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -69,7 +67,6 @@ import com.reiserx.myapplication24.Models.Administrators;
 import com.reiserx.myapplication24.Models.Users;
 import com.reiserx.myapplication24.Models.mail;
 import com.reiserx.myapplication24.R;
-import com.reiserx.myapplication24.Themes.themeApply;
 import com.reiserx.myapplication24.databinding.ActivityTestBinding;
 
 import org.json.JSONException;

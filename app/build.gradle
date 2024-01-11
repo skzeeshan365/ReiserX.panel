@@ -15,8 +15,8 @@ android {
         applicationId "com.reiserx.myapplication24"
         minSdk 23
         targetSdk 33
-        versionCode 48
-        versionName "3.2.7"
+        versionCode 49
+        versionName "3.2.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
